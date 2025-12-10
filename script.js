@@ -188,14 +188,14 @@ function renderChart() {
     const container = document.getElementById('portfolio-chart');
     if (!container) return;
 
-    // Data from the image - Blue Gradient Palette
+    // Data from the image - Green Gradient Palette (Emerald/Green)
     const data = [
-        { label: 'Collectibles', value: 2580, color: '#0C4A6E' }, // Sky 900 (Deepest Blue)
-        { label: 'Fashion', value: 1350, color: '#0369A1' },      // Sky 700
-        { label: 'Art', value: 520, color: '#0EA5E9' },           // Sky 500
-        { label: 'Jewelry', value: 9200, color: '#38BDF8' },      // Sky 400
-        { label: 'Music', value: 1250, color: '#7DD3FC' },        // Sky 300
-        { label: 'Furniture', value: 1950, color: '#BAE6FD' }     // Sky 200 (Lightest Blue)
+        { label: 'Collectibles', value: 2580, color: '#064E3B' }, // Emerald 900 (Deepest Green)
+        { label: 'Fashion', value: 1350, color: '#065F46' },      // Emerald 800
+        { label: 'Art', value: 520, color: '#059669' },           // Emerald 600
+        { label: 'Jewelry', value: 9200, color: '#10B981' },      // Emerald 500
+        { label: 'Music', value: 1250, color: '#34D399' },        // Emerald 400
+        { label: 'Furniture', value: 1950, color: '#6EE7B7' }     // Emerald 300 (Lightest Green)
     ];
 
     const width = 300;
