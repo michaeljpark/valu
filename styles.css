@@ -4297,6 +4297,14 @@ body:has(.home-container) .header {
  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
 }
 
+/* Default: Hide Mobile Elements on Desktop */
+.mobile-legend-grid {
+    display: none;
+}
+
+.ai-chat-mobile-box {
+    display: contents;
+}
 
 /* Mobile Optimization for Portfolio */
 @media (max-width: 768px) {
@@ -4328,13 +4336,13 @@ body:has(.home-container) .header {
  display: none;
  }
 
- /* New Mobile Legend Grid */
- .mobile-legend-grid {
- display: grid;
- grid-template-columns: repeat(2, 1fr);
- gap: 8px;
- margin-top: 16px;
- }
+    /* New Mobile Legend Grid */
+    .mobile-legend-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin-top: 16px;
+    }
 
     .mobile-legend-item {
         background: #FFFFFF;
