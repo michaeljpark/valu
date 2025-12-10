@@ -165,11 +165,13 @@ function renderHistoryChart() {
         .style("font-size", "12px")
         .style("font-family", "Inter, sans-serif");
 
-    // X Axis (Minimal)
+    // X Axis (Minimal) - Optimized for Mobile
+    const isMobile = window.innerWidth <= 768;
     const xAxis = d3.axisBottom(x)
-        .ticks(5)
+        .ticks(isMobile ? 3 : 5) // Fewer ticks on mobile
         .tickSize(0)
-        .tickPadding(10);
+        .tickPadding(10)
+        .tickFormat(d3.timeFormat(isMobile ? "%b" : "%b %d")); // Short format on mobile
 
     const xAxisGroup = svg.append("g")
         .attr("transform", `translate(0,${height})`)
@@ -186,14 +188,14 @@ function renderChart() {
     const container = document.getElementById('portfolio-chart');
     if (!container) return;
 
-    // Data from the image - Bank Aesthetic Colors
+    // Data from the image - Blue Gradient Palette
     const data = [
-        { label: 'Collectibles', value: 2580, color: '#1E293B' }, // Slate 800 (Dark Navy)
-        { label: 'Fashion', value: 1350, color: '#9F1239' },      // Rose 800 (Burgundy)
-        { label: 'Art', value: 520, color: '#1D4ED8' },           // Blue 700 (Corporate Blue)
-        { label: 'Jewelry', value: 9200, color: '#B45309' },      // Amber 700 (Gold/Bronze)
-        { label: 'Music', value: 1250, color: '#047857' },        // Emerald 700 (Deep Green)
-        { label: 'Furniture', value: 1950, color: '#374151' }     // Gray 700 (Charcoal)
+        { label: 'Collectibles', value: 2580, color: '#0C4A6E' }, // Sky 900 (Deepest Blue)
+        { label: 'Fashion', value: 1350, color: '#0369A1' },      // Sky 700
+        { label: 'Art', value: 520, color: '#0EA5E9' },           // Sky 500
+        { label: 'Jewelry', value: 9200, color: '#38BDF8' },      // Sky 400
+        { label: 'Music', value: 1250, color: '#7DD3FC' },        // Sky 300
+        { label: 'Furniture', value: 1950, color: '#BAE6FD' }     // Sky 200 (Lightest Blue)
     ];
 
     const width = 300;

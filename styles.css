@@ -4396,3 +4396,114 @@ body:has(.home-container) .header {
  }
 }
 
+
+/* Mobile Header Fix: Not Sticky */
+@media (max-width: 768px) {
+ .header {
+ position: relative !important;
+ top: auto !important;
+ z-index: auto !important;
+ background: transparent !important;
+ box-shadow: none !important;
+ }
+}
+
+
+/* Mobile Contact Button Styles */
+.mobile-contact-btn-fixed {
+ display: none; /* Hidden by default */
+ position: fixed;
+ bottom: 24px;
+ left: 50%;
+ transform: translateX(-50%);
+ width: calc(100% - 48px);
+ max-width: 400px;
+ padding: 16px 32px;
+ background: #111827;
+ color: white;
+ border: none;
+ border-radius: 100px;
+ font-size: 16px;
+ font-weight: 600;
+ cursor: pointer;
+ align-items: center;
+ justify-content: center;
+ gap: 10px;
+ box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+ z-index: 1000;
+}
+
+@media (max-width: 768px) {
+ .desktop-contact-btn {
+ display: none !important;
+ }
+
+ .mobile-contact-btn-fixed {
+ display: flex;
+ }
+
+ /* Adjust seller comment card layout for mobile */
+ .seller-comment-card {
+ flex-direction: column;
+ align-items: flex-start;
+ gap: 16px;
+ padding-bottom: 16px; /* Reduce padding since button is gone */
+ }
+}
+
+
+/* Mobile Contact Section (Inline) */
+.mobile-contact-section {
+ display: none;
+ flex-direction: column;
+ gap: 8px;
+ margin-top: 16px;
+}
+
+.mobile-contact-btn {
+ width: 100%;
+ padding: 14px;
+ background: #111827;
+ color: white;
+ border: none;
+ border-radius: 100px;
+ font-size: 16px;
+ font-weight: 600;
+ cursor: pointer;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 10px;
+}
+
+.response-time-text {
+ font-size: 13px;
+ color: #6B7280;
+ text-align: center;
+}
+
+@media (max-width: 768px) {
+ .mobile-contact-section {
+ display: flex;
+ }
+ 
+ /* Hide the fixed button if it still exists */
+ .mobile-contact-btn-fixed {
+ display: none !important;
+ }
+}
+
+
+@media (max-width: 768px) {
+ .desktop-contact-wrapper {
+ display: none !important;
+ }
+}
+
+
+@media (max-width: 768px) {
+    .desktop-contact-wrapper {
+        display: none !important;
+    }
+}
+
