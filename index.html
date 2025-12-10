@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Marketplace - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <a href="home.html" class="logo">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="valuapp.svg">
+                    <img src="valuweb.svg" alt="Valu">
+                </picture>
+            </a>
+            <div class="nav-actions">
+                <div class="nav-switch">
+                    <a href="marketplace.html" class="btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-grid-icon lucide-layout-grid"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg> My Feed
+                    </a>
+                    <a href="index.html" class="btn active">
+                        <i class="fa-regular fa-user"></i> My Value
+                    </a>
+                </div>
+                <a href="post.html" class="btn btn-primary">
+                    <i class="fa-solid fa-plus"></i> Post Asset
+                </a>
+            </div>
+        </header>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- 1. Stats Column (Square Area) -->
+            <div class="stats-column">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fa-solid fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Original Value</h3>
+                        <div class="stat-value">$16,930</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon gray">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-candlestick-icon lucide-chart-candlestick"><path d="M9 5v4"/><rect width="4" height="6" x="7" y="9" rx="1"/><path d="M9 15v2"/><path d="M17 3v2"/><rect width="4" height="8" x="15" y="5" rx="1"/><path d="M17 13v3"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/></svg>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Total Value</h3>
+                        <div class="stat-value">$16,850</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon red">
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Total Gain/Loss</h3>
+                        <div class="stat-value text-danger">
+                            $-80 <span class="stat-sub">(-0.5%)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Available Budget</h3>
+                        <div class="stat-value">$6,930</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Combined Portfolio & AI Card -->
+            <div class="dashboard-card combined-card">
+                <!-- Portfolio Section -->
+                <div class="combined-section portfolio-section-inner">
+                    <h2 class="section-title">Value Portfolio</h2>
+                    <div class="chart-container">
+                        <div id="portfolio-chart"></div>
+                        <div id="chart-legend" class="legend"></div>
+                    </div>
+                </div>
+
+                <!-- AI Chat Section -->
+                <div class="combined-section chat-section-inner">
+                    <div class="chat-header">
+                        <div class="chat-title">AI Property Manager Advice</div>
+                    </div>
+                    <div class="chat-messages">
+                        <div class="chat-bubble">
+                            Welcome back! Your portfolio is looking healthy.
+                            <div class="chat-timestamp">10:23 AM</div>
+                        </div>
+                        <div class="chat-bubble">
+                            I've noticed a <strong>15% increase</strong> in demand for vintage cameras this month.
+                            <div class="chat-timestamp">10:24 AM</div>
+                        </div>
+                        <div class="chat-bubble">
+                            Your <strong>Luxury Watch</strong> investment has stabilized.
+                            <div class="chat-timestamp">10:25 AM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Portfolio History Chart -->
+        <div class="portfolio-section">
+            <h2 class="section-title">Portfolio History</h2>
+            <div class="history-grid">
+                <div id="history-chart" class="history-chart-wrapper"></div>
+                <div id="history-log" class="history-log"></div>
+            </div>
+        </div>
+
+        <!-- My Assets -->
+        <div class="assets-section">
+            <div class="assets-header">
+                <h2 class="section-title" style="margin-bottom: 0;">My Assets <span class="asset-count">(6)</span></h2>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Asset</th>
+                            <th>Category</th>
+                            <th>Original Price</th>
+                            <th>Current Value</th>
+                            <th>Gain/Loss</th>
+                            <th>Return %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="asset-cell">
+                                    <div class="asset-img-placeholder">
+                                        <img src="valu text.svg" alt="Placeholder">
+                                    </div>
+                                    <div class="asset-info">
+                                        <h4>Vintage Camera Collection</h4>
+                                        <p>Excellent</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge badge-collectibles">Collectibles</span></td>
+                            <td>$2,500</td>
+                            <td>
+                                <div class="value-slot">
+                                    $2,200
+                                    <div class="ai-tooltip">
+                                        <span class="tooltip-header">AI Analyzer says:</span>
+                                        Market saturation for 1980s models has slightly depressed prices, but pristine
+                                        condition maintains value.
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-danger"><i class="fa-solid fa-arrow-trend-down"></i> $-300</td>
+                            <td class="text-danger">-12.00%</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="asset-cell">
+                                    <div class="asset-img-placeholder">
+                                        <img src="valu text.svg" alt="Placeholder">
+                                    </div>
+                                    <div class="asset-info">
+                                        <h4>Limited Edition Sneakers</h4>
+                                        <p>Mint Condition</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge badge-fashion">Fashion</span></td>
+                            <td>$1,800</td>
+                            <td>
+                                <div class="value-slot">
+                                    $2,200
+                                    <div class="ai-tooltip">
+                                        <span class="tooltip-header">AI Analyzer says:</span>
+                                        High demand in secondary markets driven by recent celebrity endorsements and
+                                        limited supply.
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-success"><i class="fa-solid fa-arrow-trend-up"></i> +$400</td>
+                            <td class="text-success">+22.2%</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="asset-cell">
+                                    <div class="asset-img-placeholder">
+                                        <img src="valu text.svg" alt="Placeholder">
+                                    </div>
+                                    <div class="asset-info">
+                                        <h4>Abstract Art Painting</h4>
+                                        <p>Original</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge badge-art">Art</span></td>
+                            <td>$850</td>
+                            <td>
+                                <div class="value-slot">
+                                    $1,200
+                                    <div class="ai-tooltip">
+                                        <span class="tooltip-header">AI Analyzer says:</span>
+                                        Artist's recent gallery exhibition has increased visibility and collector
+                                        interest significantly.
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-success"><i class="fa-solid fa-arrow-trend-up"></i> +$350</td>
+                            <td class="text-success">+41.2%</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="asset-cell">
+                                    <div class="asset-img-placeholder">
+                                        <img src="valu text.svg" alt="Placeholder">
+                                    </div>
+                                    <div class="asset-info">
+                                        <h4>Designer Watch</h4>
+                                        <p>Luxury</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge badge-jewelry">Jewelry</span></td>
+                            <td>$4,500</td>
+                            <td>
+                                <div class="value-slot">
+                                    $5,000
+                                    <div class="ai-tooltip">
+                                        <span class="tooltip-header">AI Analyzer says:</span>
+                                        Steady appreciation due to brand heritage and annual price increases for new
+                                        models.
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-success"><i class="fa-solid fa-arrow-trend-up"></i> +$500</td>
+                            <td class="text-success">+11.1%</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="asset-cell">
+                                    <div class="asset-img-placeholder">
+                                        <img src="valu text.svg" alt="Placeholder">
+                                    </div>
+                                    <div class="asset-info">
+                                        <h4>Rare Vinyl Records</h4>
+                                        <p>Mint</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge badge-music">Music</span></td>
+                            <td>$1,250</td>
+                            <td>
+                                <div class="value-slot">
+                                    $1,400
+                                    <div class="ai-tooltip">
+                                        <span class="tooltip-header">AI Analyzer says:</span>
+                                        Niche collector interest remains strong for first pressings in near-mint
+                                        condition.
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-success"><i class="fa-solid fa-arrow-trend-up"></i> +$150</td>
+                            <td class="text-success">+12.0%</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="asset-cell">
+                                    <div class="asset-img-placeholder">
+                                        <img src="valu text.svg" alt="Placeholder">
+                                    </div>
+                                    <div class="asset-info">
+                                        <h4>Mid-Century Chair</h4>
+                                        <p>Restored</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge badge-furniture">Furniture</span></td>
+                            <td>$1,950</td>
+                            <td>
+                                <div class="value-slot">
+                                    $2,100
+                                    <div class="ai-tooltip">
+                                        <span class="tooltip-header">AI Analyzer says:</span>
+                                        Mid-century modern furniture continues to trend, supporting stable value growth.
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-success"><i class="fa-solid fa-arrow-trend-up"></i> +$150</td>
+                            <td class="text-success">+7.7%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '0' && window.innerWidth <= 768) {
+                const postBtn = document.querySelector('.btn-primary');
+                if (postBtn) {
+                    if (postBtn.classList.contains('hidden-mobile')) {
+                        postBtn.classList.remove('hidden-mobile');
+                    } else {
+                        postBtn.classList.add('hidden-mobile');
+                    }
+                }
+            }
+        });
+    </script>
+    <nav class="bottom-nav">
+        <a href="marketplace.html" class="bottom-nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-grid-icon lucide-layout-grid"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+            <span>My Feed</span>
+        </a>
+        <a href="index.html" class="bottom-nav-item active">
+            <i class="fa-regular fa-user"></i>
+            <span>My Value</span>
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <i class="fa-regular fa-circle-user" style="font-size: 24px;"></i>
+            <span>Settings</span>
+        </a>
+        <div class="bottom-nav-post-container">
+            <a href="post.html" class="bottom-nav-post">
+                <i class="fa-solid fa-plus"></i>
+            </a>
+        </div>
+    </nav>
+</body>
+
+</html>

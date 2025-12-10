@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Journey - Valu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .journey-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .journey-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .journey-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .journey-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .journey-main-card {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .journey-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            background: #F3F4F6;
+        }
+
+        .journey-info {
+            padding: 20px;
+        }
+
+        .journey-count {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .journey-location {
+            font-size: 14px;
+            color: #6B7280;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6B7280;
+        }
+
+        .search-keyword {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+        .search-subtitle {
+            text-align: center;
+            font-size: 16px;
+            color: #6B7280;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .journey-container {
+                padding: 20px 16px;
+            }
+
+            .journey-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .journey-image {
+                height: 250px;
+            }
+
+            .search-keyword {
+                font-size: 24px;
+            }
+            
+            .journey-hero {
+                grid-template-columns: 1fr !important;
+                gap: 24px;
+                margin-top: 24px;
+            }
+
+            .journey-hero-image-container {
+                min-height: 300px;
+                border-radius: 16px;
+            }
+
+            .journey-hero-content {
+                padding: 24px;
+                border-radius: 16px;
+            }
+
+            .analysis-title {
+                font-size: 20px;
+                margin-bottom: 16px;
+            }
+
+            .analysis-text {
+                font-size: 15px;
+            }
+
+            .analysis-meta {
+                margin-top: 24px;
+                padding-top: 16px;
+                gap: 16px;
+            }
+
+            .thumbnails-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .thumbnail-image {
+                height: 120px;
+            }
+            
+            .thumbnail-info {
+                padding: 10px;
+            }
+            
+            .thumbnail-title {
+                font-size: 13px;
+            }
+        }
+
+        /* Hero Section Styles */
+        .journey-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+            align-items: start;
+        }
+
+        .journey-hero-image-container {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            aspect-ratio: 1 / 1;
+        }
+
+        .journey-hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .journey-hero-content {
+            background: white;
+            padding: 32px;
+            border-radius: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .analysis-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .analysis-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #374151;
+        }
+
+        .analysis-meta {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #E5E7EB;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .meta-item h4 {
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .meta-item p {
+            font-size: 18px;
+            color: #111827;
+            font-weight: 600;
+        }
+
+        /* Thumbnail Grid Styles */
+        .thumbnails-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111827;
+            margin: 60px 0 24px;
+            padding-left: 4px;
+        }
+
+        .thumbnails-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .thumbnail-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+            cursor: pointer;
+            height: 100%;
+        }
+
+        .thumbnail-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .thumbnail-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .thumbnail-info {
+            padding: 16px;
+        }
+
+        .thumbnail-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #111827;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <a href="home.html" class="logo">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="valuapp.svg">
+                    <img src="valuweb.svg" alt="Valu">
+                </picture>
+            </a>
+            <div class="nav-actions">
+                <div class="nav-switch">
+                    <a href="marketplace.html" class="btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-grid-icon lucide-layout-grid"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg> My Feed
+                    </a>
+                    <a href="index.html" class="btn">
+                        <i class="fa-regular fa-user"></i> My Portfolio
+                    </a>
+                </div>
+                <a href="post.html" class="btn btn-primary">
+                    <i class="fa-solid fa-plus"></i> Post Asset
+                </a>
+            </div>
+        </header>
+
+        <!-- Journey Content -->
+        <div class="journey-container">
+            <h1 class="search-keyword" id="search-keyword"></h1>
+
+            <div id="loading" class="loading-spinner">
+                <i class="fa-solid fa-spinner fa-spin" style="font-size: 32px;"></i>
+                <p style="margin-top: 16px;">Finding items...</p>
+            </div>
+
+            <!-- Main Hero Section -->
+            <div id="journey-hero" class="journey-hero" style="display: none;">
+                <!-- Content injected by JS -->
+            </div>
+
+            <!-- Thumbnails Section -->
+            <div id="thumbnails-section" style="display: none;">
+                <h2 class="thumbnails-title">Related Items</h2>
+                <div class="thumbnails-grid" id="thumbnails-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get search query from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get('search') || 'items';
+        
+        document.getElementById('search-keyword').textContent = searchQuery.charAt(0).toUpperCase() + searchQuery.slice(1);
+
+        // Generate random count between 2 and 25
+        function getRandomCount() {
+            return Math.floor(Math.random() * 24) + 2;
+        }
+
+        // Generate placeholder SVG
+        function createPlaceholderSVG(text, bgColor, textColor) {
+            const svg = `
+                <svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="400" height="300" fill="#${bgColor}"/>
+                    <text x="50%" y="50%" font-family="Montserrat, sans-serif" font-size="24" font-weight="600" 
+                          fill="#${textColor}" text-anchor="middle" dominant-baseline="middle">
+                        ${text}
+                    </text>
+                </svg>
+            `;
+            return 'data:image/svg+xml;base64,' + btoa(svg);
+        }
+
+        // Render D3 Price Chart
+        function renderPriceChart(data) {
+            const container = document.getElementById('price-chart-container');
+            container.innerHTML = ''; // Clear previous chart
+            
+            // Set dimensions
+            const margin = {top: 20, right: 20, bottom: 30, left: 50};
+            const width = container.clientWidth - margin.left - margin.right;
+            const height = container.clientHeight - margin.top - margin.bottom;
+
+            // Create SVG
+            const svg = d3.select("#price-chart-container")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            // X Axis
+            const x = d3.scaleLinear()
+                .domain(d3.extent(data, d => d.year))
+                .range([0, width]);
+            
+            svg.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x).ticks(5).tickFormat(d3.format("d")))
+                .attr("color", "#9CA3AF");
+
+            // Y Axis
+            const y = d3.scaleLinear()
+                .domain([d3.min(data, d => d.price) * 0.9, d3.max(data, d => d.price) * 1.1])
+                .range([height, 0]);
+            
+            svg.append("g")
+                .call(d3.axisLeft(y).ticks(5))
+                .attr("color", "#9CA3AF");
+
+            // Add Line
+            svg.append("path")
+                .datum(data)
+                .attr("fill", "none")
+                .attr("stroke", "#10B981") // Success Green
+                .attr("stroke-width", 2)
+                .attr("d", d3.line()
+                    .x(d => x(d.year))
+                    .y(d => y(d.price))
+                    .curve(d3.curveMonotoneX)
+                );
+
+            // Add Area (Gradient)
+            const areaGradient = svg.append("defs")
+                .append("linearGradient")
+                .attr("id", "areaGradient")
+                .attr("x1", "0%")
+                .attr("y1", "0%")
+                .attr("x2", "0%")
+                .attr("y2", "100%");
+
+            areaGradient.append("stop")
+                .attr("offset", "0%")
+                .attr("stop-color", "#10B981")
+                .attr("stop-opacity", 0.2);
+
+            areaGradient.append("stop")
+                .attr("offset", "100%")
+                .attr("stop-color", "#10B981")
+                .attr("stop-opacity", 0);
+
+            svg.append("path")
+                .datum(data)
+                .attr("fill", "url(#areaGradient)")
+                .attr("d", d3.area()
+                    .x(d => x(d.year))
+                    .y0(height)
+                    .y1(d => y(d.price))
+                    .curve(d3.curveMonotoneX)
+                );
+
+            // Add Dots
+            svg.selectAll("dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("cx", d => x(d.year))
+                .attr("cy", d => y(d.price))
+                .attr("r", 4)
+                .attr("fill", "#10B981")
+                .attr("stroke", "white")
+                .attr("stroke-width", 2);
+                
+            // Add Title
+            svg.append("text")
+                .attr("x", width / 2)
+                .attr("y", -5)
+                .attr("text-anchor", "middle")
+                .style("font-size", "12px")
+                .style("fill", "#6B7280")
+                .text("Price History (USD)");
+        }
+
+        // Fetch images using Wikipedia API (High accuracy for specific terms)
+        async function fetchImages() {
+            const journeyHero = document.getElementById('journey-hero');
+            const thumbnailsGrid = document.getElementById('thumbnails-grid');
+            const thumbnailsSection = document.getElementById('thumbnails-section');
+            const loading = document.getElementById('loading');
+            
+            // Clear grids
+            journeyHero.innerHTML = '';
+            thumbnailsGrid.innerHTML = '';
+
+            try {
+                // Create placeholder items instead of fetching from Wikipedia
+                const items = [];
+                
+                // Main item
+                items.push({
+                    title: searchQuery,
+                    description: ''
+                });
+
+                // 5 Thumbnail items (using related terms or just generic ones if we don't have real data)
+                for (let i = 1; i <= 5; i++) {
+                    items.push({
+                        title: `${searchQuery} ${i}`,
+                        description: ''
+                    });
+                }
+
+                // Render Main Hero Section (Split Layout)
+                if (items.length > 0) {
+                    const mainItem = items[0];
+                    
+                    // Placeholder HTML
+                    const placeholderHtml = `
+                        <div style="width: 100%; height: 100%; background: #F3F4F6; display: flex; align-items: center; justify-content: center;">
+                            <img src="valu text.svg" style="opacity: 0.4; filter: grayscale(100%); width: 80px; height: 80px;">
+                        </div>
+                    `;
+
+                    journeyHero.innerHTML = `
+                        <div class="journey-hero-image-container">
+                            ${placeholderHtml}
+                        </div>
+                        <div class="journey-hero-content">
+                            <div class="analysis-title" style="margin-bottom: 16px;">
+                                Market Analysis
+                            </div>
+                            <div id="ai-text" class="analysis-text" style="font-size: 15px; line-height: 1.6;">
+                                <i class="fa-solid fa-spinner fa-spin"></i> Analyzing market data for ${searchQuery}...
+                            </div>
+                            <div class="analysis-meta" style="margin-top: 20px; padding-top: 16px; gap: 16px;">
+                                <div class="meta-item">
+                                    <h4 style="margin-bottom: 4px;">Origin</h4>
+                                    <p id="ai-origin" style="font-size: 16px;">-</p>
+                                </div>
+                                <div class="meta-item">
+                                    <h4 style="margin-bottom: 4px;">Est. Price</h4>
+                                    <p id="ai-price" style="font-size: 16px;">-</p>
+                                </div>
+                            </div>
+                            <div id="price-chart-container" style="margin-top: 20px; flex: 1; width: 100%; min-height: 0;"></div>
+                        </div>
+                    `;
+                    
+                    // Show the hero section immediately
+                    document.getElementById('journey-hero').style.display = 'grid';
+                    document.getElementById('loading').style.display = 'none';
+
+                    // Helper to update UI
+                    const updateUIWithData = (analysis, origin, price, chartDataStr) => {
+                        const aiTextElement = document.getElementById('ai-text');
+                        const aiOriginElement = document.getElementById('ai-origin');
+                        const aiPriceElement = document.getElementById('ai-price');
+                        
+                        if (aiTextElement) aiTextElement.textContent = analysis;
+                        if (aiOriginElement) aiOriginElement.textContent = origin;
+                        if (aiPriceElement) aiPriceElement.textContent = price;
+                        
+                        if (chartDataStr) {
+                            const chartData = chartDataStr.split(',').map(item => {
+                                const match = item.match(/(\d{4})\s*:\s*([\d.]+)/);
+                                if (match) {
+                                    return { year: parseInt(match[1]), price: parseFloat(match[2]) };
+                                }
+                                return null;
+                            }).filter(d => d !== null);
+                            
+                            if (chartData.length > 0) {
+                                renderPriceChart(chartData);
+                            }
+                        }
+                    };
+
+                    // Fetch AI Text Analysis asynchronously with Timeout and Fallback
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 6000); // 6 second timeout
+
+                    fetch(`https://text.pollinations.ai/${encodeURIComponent('Analyze ' + searchQuery + '. Provide 4 parts separated by | character: 1. A concise market analysis (2-3 sentences). 2. The origin/country. 3. Estimated price range in USD. 4. Historical price trend data for the last 5 years (2020-2024) as Year:Price pairs separated by commas. Do not use labels like "Origin:" or "Price:". Just return the values. Example format: This item is popular...|France|$500 - $1000|2020:500,2021:550,2022:600,2023:580,2024:620')}`, { signal: controller.signal })
+                        .then(res => {
+                            if (!res.ok) throw new Error('Network response was not ok');
+                            return res.text();
+                        })
+                        .then(text => {
+                            clearTimeout(timeoutId);
+                            // Remove Pollinations ad text
+                            const cleanText = text.split('---')[0].trim();
+                            
+                            // Smart Parsing Logic
+                            let parts = cleanText.split('|').map(p => p.trim());
+                            
+                            // Fallback: if pipe split failed, try newline split
+                            if (parts.length < 3) {
+                                parts = cleanText.split('\n').map(p => p.trim()).filter(p => p.length > 0);
+                            }
+
+                            let analysis = parts[0] || "Market analysis unavailable.";
+                            let origin = "-";
+                            let price = "-";
+                            let chartDataStr = "";
+
+                            // Identify parts based on content patterns
+                            for (let i = 1; i < parts.length; i++) {
+                                const part = parts[i];
+                                // Check for Chart Data pattern (Year:Price)
+                                if (part.match(/202[0-4]\s*:\s*[\d,.]+/)) {
+                                    chartDataStr = part;
+                                } 
+                                // Check for Price pattern ($ symbol or number range)
+                                else if (part.includes('$') || part.match(/\d+\s*-\s*\d+/)) {
+                                    price = part.replace('Price:', '').replace('Est. Price:', '').trim();
+                                } 
+                                // Assume Origin (short text, not chart, not price)
+                                else if (part.length < 50) {
+                                    origin = part.replace('Origin:', '').trim();
+                                }
+                            }
+
+                            updateUIWithData(analysis, origin, price, chartDataStr);
+                        })
+                        .catch(err => {
+                            clearTimeout(timeoutId);
+                            console.warn('AI Fetch failed, using fallback:', err);
+                            // Fallback Data Generation
+                            const base = 100 + Math.floor(Math.random() * 500);
+                            updateUIWithData(
+                                `Market analysis for ${searchQuery} is temporarily unavailable, but demand remains steady.`,
+                                "Global",
+                                `$${base} - $${base + 200}`,
+                                `2020:${base},2021:${base+20},2022:${base+50},2023:${base+40},2024:${base+80}`
+                            );
+                        });
+                }
+
+                // Render Thumbnails (Remaining Items)
+                if (items.length > 1) {
+                    thumbnailsSection.style.display = 'block';
+                    
+                    for (let i = 1; i < items.length; i++) {
+                        const item = items[i];
+                        const thumbCard = document.createElement('div');
+                        thumbCard.className = 'thumbnail-card';
+                        
+                        // Placeholder for thumbnail
+                        const thumbPlaceholder = `
+                            <div style="width: 100%; height: 120px; background: #F3F4F6; display: flex; align-items: center; justify-content: center; border-radius: 8px 8px 0 0;">
+                                <img src="valu text.svg" style="opacity: 0.4; filter: grayscale(100%); width: 40px; height: 40px;">
+                            </div>
+                        `;
+                        
+                        thumbCard.innerHTML = `
+                            ${thumbPlaceholder}
+                            <div class="thumbnail-info">
+                                <div class="thumbnail-title">${item.title}</div>
+                            </div>
+                        `;
+                        
+                        // Click to search for this item
+                        thumbCard.addEventListener('click', () => {
+                            window.location.href = `aijourney.html?search=${encodeURIComponent(item.title)}`;
+                        });
+                        
+                        thumbnailsGrid.appendChild(thumbCard);
+                    }
+                } else {
+                    thumbnailsSection.style.display = 'none';
+                }
+
+            } catch (error) {
+                console.error('Error fetching images:', error);
+                loading.style.display = 'none';
+            }
+            
+            // Safety timeout
+            setTimeout(() => {
+                const loading = document.getElementById('loading');
+                if (loading.style.display !== 'none') {
+                    loading.style.display = 'none';
+                    document.getElementById('journey-hero').style.display = 'grid';
+                }
+            }, 5000);
+        }
+
+
+
+        // Load images when page loads
+        fetchImages();
+    </script>
+    <nav class="bottom-nav">
+        <a href="marketplace.html" class="bottom-nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-grid-icon lucide-layout-grid"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+            <span>My Feed</span>
+        </a>
+        <a href="index.html" class="bottom-nav-item">
+            <i class="fa-regular fa-user"></i>
+            <span>My Value</span>
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <i class="fa-regular fa-circle-user" style="font-size: 24px;"></i>
+            <span>Settings</span>
+        </a>
+        <div class="bottom-nav-post-container">
+            <a href="post.html" class="bottom-nav-post">
+                <i class="fa-solid fa-plus"></i>
+            </a>
+        </div>
+    </nav>
+</body>
+
+</html>
