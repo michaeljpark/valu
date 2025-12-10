@@ -249,6 +249,7 @@ function renderChart() {
 
     // Add labels (optional, but image shows legend on right, not on chart)
     renderLegend(data);
+    renderMobileLegend(data);
 }
 
 function renderLegend(data) {
@@ -262,6 +263,21 @@ function renderLegend(data) {
                 <span>${item.label}</span>
             </div>
             <div class="legend-value">$${item.value.toLocaleString()}</div>
+        </div>
+    `).join('');
+}
+
+function renderMobileLegend(data) {
+    const container = document.getElementById('mobile-legend-container');
+    if (!container) return;
+
+    container.innerHTML = data.map(item => `
+        <div class="mobile-legend-item">
+            <div class="mobile-legend-label">
+                <div class="mobile-legend-dot" style="background-color: ${item.color}"></div>
+                <span>${item.label}</span>
+            </div>
+            <div class="mobile-legend-value">$${item.value.toLocaleString()}</div>
         </div>
     `).join('');
 }

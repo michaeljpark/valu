@@ -4297,3 +4297,94 @@ body:has(.home-container) .header {
  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
 }
 
+
+/* Mobile Optimization for Portfolio */
+@media (max-width: 768px) {
+ /* Reset Combined Card Layout */
+ .combined-card {
+ display: flex;
+ flex-direction: column;
+ gap: 16px;
+ padding: 16px;
+ }
+
+ /* Portfolio Section - Center Chart */
+ .portfolio-section-inner {
+ width: 100%;
+ border-right: none;
+ padding-right: 0;
+ margin-bottom: 0;
+ }
+
+ .portfolio-section-inner .chart-container {
+ margin-left: 0;
+ justify-content: center;
+ height: auto;
+ min-height: 250px;
+ }
+
+ /* Hide Overlay Legend on Mobile */
+ .portfolio-section-inner .legend {
+ display: none;
+ }
+
+ /* New Mobile Legend Grid */
+ .mobile-legend-grid {
+ display: grid;
+ grid-template-columns: repeat(2, 1fr);
+ gap: 8px;
+ margin-top: 16px;
+ }
+
+    .mobile-legend-item {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 8px;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    } .mobile-legend-label {
+ font-size: 12px;
+ color: #64748B;
+ display: flex;
+ align-items: center;
+ gap: 6px;
+ }
+
+ .mobile-legend-dot {
+ width: 8px;
+ height: 8px;
+ border-radius: 50%;
+ }
+
+ .mobile-legend-value {
+ font-size: 16px;
+ font-weight: 600;
+ color: #0F172A;
+ }
+
+ /* AI Chat Section - Mobile Box */
+ .chat-section-inner {
+ width: 100%;
+ padding-left: 0;
+ border-left: none;
+ border-top: 1px solid #E2E8F0;
+ padding-top: 16px;
+ margin-top: 0;
+ }
+
+    .ai-chat-mobile-box {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 12px;
+        padding: 16px;
+    } .chat-header {
+ margin-bottom: 12px;
+ }
+
+ .chat-messages {
+ max-height: 150px;
+ }
+}
+
