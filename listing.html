@@ -153,22 +153,30 @@
         <!-- Header -->
         <header class="header">
             <a href="index.html" class="logo">
-                <picture>
+                <div class="mobile-location-header" style="display: none;">Toronto, Ontario</div>
+                <picture class="default-logo">
                     <source media="(max-width: 768px)" srcset="valu text.svg">
                     <img src="valuweb.svg" alt="Valu">
                 </picture>
             </a>
             <div class="nav-actions">
+                <div class="user-profile-header">
+                    <img src="https://ui-avatars.com/api/?name=Test+User&background=0D8ABC&color=fff&rounded=true" alt="User" class="profile-avatar">
+                    <span class="profile-name">testuser_1</span>
+                </div>
                 <div class="nav-switch">
                     <a href="index.html" class="btn">
-                        <i class="fa-regular fa-user"></i> My Value
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-to-back-icon lucide-send-to-back"><rect x="14" y="14" width="8" height="8" rx="2"/><rect x="2" y="2" width="8" height="8" rx="2"/><path d="M7 14v1a2 2 0 0 0 2 2h1"/><path d="M14 7h1a2 2 0 0 1 2 2v1"/></svg> My Value
                     </a>
                     <a href="post.html" class="btn">
-                        <i class="fa-solid fa-list-check"></i> Manage
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-candlestick-icon lucide-chart-candlestick"><path d="M9 5v4"/><rect width="4" height="6" x="7" y="9" rx="1"/><path d="M9 15v2"/><path d="M17 3v2"/><rect width="4" height="8" x="15" y="5" rx="1"/><path d="M17 13v3"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/></svg> Manage
+                    </a>
+                    <a href="evaluation.html" class="btn">
+                        Evaluation
                     </a>
                 </div>
-                <a href="marketplace.html" class="btn" style="color: #6B7280;">
-                    <i class="fa-solid fa-store"></i> Market
+                <a href="marketplace.html" class="btn active" style="color: #0F172A;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-land-plot-icon lucide-land-plot"><path d="m12 8 6-3-6-3v10"/><path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12"/><path d="m6.49 12.85 11.02 6.3"/><path d="M17.51 12.85 6.5 19.15"/></svg> Market
                 </a>
             </div>
         </header>
@@ -587,20 +595,20 @@
     </script>
     <nav class="bottom-nav">
         <a href="index.html" class="bottom-nav-item">
-            <i class="fa-regular fa-user"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-to-back-icon lucide-send-to-back"><rect x="14" y="14" width="8" height="8" rx="2"/><rect x="2" y="2" width="8" height="8" rx="2"/><path d="M7 14v1a2 2 0 0 0 2 2h1"/><path d="M14 7h1a2 2 0 0 1 2 2v1"/></svg>
             <span>My Value</span>
         </a>
         <a href="post.html" class="bottom-nav-item">
-            <i class="fa-solid fa-list-check"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-candlestick-icon lucide-chart-candlestick"><path d="M9 5v4"/><rect width="4" height="6" x="7" y="9" rx="1"/><path d="M9 15v2"/><path d="M17 3v2"/><rect width="4" height="8" x="15" y="5" rx="1"/><path d="M17 13v3"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/></svg>
             <span>Manage</span>
         </a>
         <a href="marketplace.html" class="bottom-nav-item active">
-            <i class="fa-solid fa-store"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-land-plot-icon lucide-land-plot"><path d="m12 8 6-3-6-3v10"/><path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12"/><path d="m6.49 12.85 11.02 6.3"/><path d="M17.51 12.85 6.5 19.15"/></svg>
             <span>Market</span>
         </a>
-        <a href="#" class="bottom-nav-item">
-            <i class="fa-regular fa-circle-user" style="font-size: 24px;"></i>
-            <span>Settings</span>
+        <a href="profile.html" class="bottom-nav-item">
+            <img src="https://ui-avatars.com/api/?name=Test+User&background=0D8ABC&color=fff&rounded=true" alt="User" class="profile-avatar-small">
+            <span>You</span>
         </a>
     </nav>
 </body>

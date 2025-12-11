@@ -820,6 +820,7 @@ function initAssetHistory() {
             currentAssetIndex = (currentAssetIndex - 1 + myAssets.length) % myAssets.length;
             loadAsset(currentAssetIndex);
         }
+        startAssetAutoRotate();
     });
 
     // Mouse Wheel Support (Hover + Scroll)

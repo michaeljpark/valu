@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile & Messages - Valu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <a href="index.html" class="logo">
+                <div class="mobile-location-header" style="display: none;">Toronto, Ontario</div>
+                <picture class="default-logo">
+                    <source media="(max-width: 768px)" srcset="valu text.svg">
+                    <img src="valuweb.svg" alt="Valu">
+                </picture>
+            </a>
+            <div class="nav-actions">
+                <div class="user-profile-header">
+                    <img src="https://ui-avatars.com/api/?name=Test+User&background=0D8ABC&color=fff&rounded=true" alt="User" class="profile-avatar">
+                    <span class="profile-name">testuser_1</span>
+                </div>
+                <div class="nav-switch">
+                    <a href="index.html" class="btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-to-back-icon lucide-send-to-back"><rect x="14" y="14" width="8" height="8" rx="2"/><rect x="2" y="2" width="8" height="8" rx="2"/><path d="M7 14v1a2 2 0 0 0 2 2h1"/><path d="M14 7h1a2 2 0 0 1 2 2v1"/></svg> My Value
+                    </a>
+                    <a href="post.html" class="btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-candlestick-icon lucide-chart-candlestick"><path d="M9 5v4"/><rect width="4" height="6" x="7" y="9" rx="1"/><path d="M9 15v2"/><path d="M17 3v2"/><rect width="4" height="8" x="15" y="5" rx="1"/><path d="M17 13v3"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/></svg> Manage
+                    </a>
+                    <a href="evaluation.html" class="btn">
+                        Evaluation
+                    </a>
+                </div>
+                <a href="marketplace.html" class="btn" style="color: #6B7280;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-land-plot-icon lucide-land-plot"><path d="m12 8 6-3-6-3v10"/><path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12"/><path d="m6.49 12.85 11.02 6.3"/><path d="M17.51 12.85 6.5 19.15"/></svg> Market
+                </a>
+            </div>
+        </header>
+
+        <div class="profile-page-container">
+            <!-- Chat Section -->
+            <section class="chat-section">
+                <h2 class="section-title">Messages</h2>
+                <div class="chat-list">
+                    <!-- Chat Item 1 -->
+                    <div class="chat-item unread">
+                        <div class="chat-avatar-wrapper">
+                            <img src="https://ui-avatars.com/api/?name=Alice+Smith&background=random" alt="Alice" class="chat-avatar">
+                            <div class="status-dot online"></div>
+                        </div>
+                        <div class="chat-content">
+                            <div class="chat-header">
+                                <h3 class="chat-name">Alice Smith</h3>
+                                <span class="chat-time">2m ago</span>
+                            </div>
+                            <p class="chat-preview">Is the vintage camera still available?</p>
+                        </div>
+                        <div class="unread-indicator"></div>
+                    </div>
+
+                    <!-- Chat Item 2 -->
+                    <div class="chat-item">
+                        <div class="chat-avatar-wrapper">
+                            <img src="https://ui-avatars.com/api/?name=Bob+Jones&background=random" alt="Bob" class="chat-avatar">
+                        </div>
+                        <div class="chat-content">
+                            <div class="chat-header">
+                                <h3 class="chat-name">Bob Jones</h3>
+                                <span class="chat-time">1h ago</span>
+                            </div>
+                            <p class="chat-preview">Thanks for the quick delivery!</p>
+                        </div>
+                    </div>
+
+                    <!-- Chat Item 3 -->
+                    <div class="chat-item unread">
+                        <div class="chat-avatar-wrapper">
+                            <img src="https://ui-avatars.com/api/?name=Charlie+Brown&background=random" alt="Charlie" class="chat-avatar">
+                            <div class="status-dot online"></div>
+                        </div>
+                        <div class="chat-content">
+                            <div class="chat-header">
+                                <h3 class="chat-name">Charlie Brown</h3>
+                                <span class="chat-time">3h ago</span>
+                            </div>
+                            <p class="chat-preview">Can we negotiate the price for the watch?</p>
+                        </div>
+                        <div class="unread-indicator"></div>
+                    </div>
+
+                    <!-- Chat Item 4 -->
+                    <div class="chat-item">
+                        <div class="chat-avatar-wrapper">
+                            <img src="https://ui-avatars.com/api/?name=David+Lee&background=random" alt="David" class="chat-avatar">
+                        </div>
+                        <div class="chat-content">
+                            <div class="chat-header">
+                                <h3 class="chat-name">David Lee</h3>
+                                <span class="chat-time">1d ago</span>
+                            </div>
+                            <p class="chat-preview">I'll take it. When can we meet?</p>
+                        </div>
+                    </div>
+
+                    <!-- Chat Item 5 -->
+                    <div class="chat-item">
+                        <div class="chat-avatar-wrapper">
+                            <img src="https://ui-avatars.com/api/?name=Emma+Wilson&background=random" alt="Emma" class="chat-avatar">
+                        </div>
+                        <div class="chat-content">
+                            <div class="chat-header">
+                                <h3 class="chat-name">Emma Wilson</h3>
+                                <span class="chat-time">2d ago</span>
+                            </div>
+                            <p class="chat-preview">Is this still available?</p>
+                        </div>
+                    </div>
+
+                    <!-- Chat Item 6 -->
+                    <div class="chat-item">
+                        <div class="chat-avatar-wrapper">
+                            <img src="https://ui-avatars.com/api/?name=Frank+Miller&background=random" alt="Frank" class="chat-avatar">
+                        </div>
+                        <div class="chat-content">
+                            <div class="chat-header">
+                                <h3 class="chat-name">Frank Miller</h3>
+                                <span class="chat-time">3d ago</span>
+                            </div>
+                            <p class="chat-preview">Great, thanks!</p>
+                        </div>
+                    </div>
+
+                    <!-- Chat Item 7 -->
+                    <div class="chat-item">
+                        <div class="chat-avatar-wrapper">
+                            <img src="https://ui-avatars.com/api/?name=Grace+Hopper&background=random" alt="Grace" class="chat-avatar">
+                        </div>
+                        <div class="chat-content">
+                            <div class="chat-header">
+                                <h3 class="chat-name">Grace Hopper</h3>
+                                <span class="chat-time">4d ago</span>
+                            </div>
+                            <p class="chat-preview">Can you ship to New York?</p>
+                        </div>
+                    </div>
+
+                    <!-- Chat Item 8 -->
+                    <div class="chat-item">
+                        <div class="chat-avatar-wrapper">
+                            <img src="https://ui-avatars.com/api/?name=Henry+Ford&background=random" alt="Henry" class="chat-avatar">
+                        </div>
+                        <div class="chat-content">
+                            <div class="chat-header">
+                                <h3 class="chat-name">Henry Ford</h3>
+                                <span class="chat-time">5d ago</span>
+                            </div>
+                            <p class="chat-preview">I am interested in buying.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section class="profile-section">
+                <h2 class="section-title">Profile</h2>
+                <div class="profile-card">
+                    <div class="profile-header-large">
+                        <img src="https://ui-avatars.com/api/?name=Test+User&background=0D8ABC&color=fff&rounded=true&size=128" alt="Profile" class="profile-avatar-large">
+                        <h3 class="profile-name-large">testuser_1</h3>
+                        <p class="profile-email">testuser@example.com</p>
+                    </div>
+                    
+                    <div class="profile-options">
+                        <a href="#" class="profile-option-item">
+                            <div class="option-icon"><i class="fa-regular fa-user"></i></div>
+                            <span class="option-text">Edit Profile</span>
+                            <i class="fa-solid fa-chevron-right option-arrow"></i>
+                        </a>
+                        <a href="#" class="profile-option-item">
+                            <div class="option-icon"><i class="fa-regular fa-credit-card"></i></div>
+                            <span class="option-text">Payment Methods</span>
+                            <i class="fa-solid fa-chevron-right option-arrow"></i>
+                        </a>
+                        <a href="#" class="profile-option-item">
+                            <div class="option-icon"><i class="fa-regular fa-bell"></i></div>
+                            <span class="option-text">Notifications</span>
+                            <i class="fa-solid fa-chevron-right option-arrow"></i>
+                        </a>
+                        <a href="#" class="profile-option-item">
+                            <div class="option-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                            <span class="option-text">Privacy & Security</span>
+                            <i class="fa-solid fa-chevron-right option-arrow"></i>
+                        </a>
+                        <a href="#" class="profile-option-item">
+                            <div class="option-icon"><i class="fa-regular fa-circle-question"></i></div>
+                            <span class="option-text">Help & Support</span>
+                            <i class="fa-solid fa-chevron-right option-arrow"></i>
+                        </a>
+                        <a href="#" class="profile-option-item logout">
+                            <div class="option-icon"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
+                            <span class="option-text">Log Out</span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="index.html" class="bottom-nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-to-back-icon lucide-send-to-back"><rect x="14" y="14" width="8" height="8" rx="2"/><rect x="2" y="2" width="8" height="8" rx="2"/><path d="M7 14v1a2 2 0 0 0 2 2h1"/><path d="M14 7h1a2 2 0 0 1 2 2v1"/></svg>
+            <span>My Value</span>
+        </a>
+        <a href="post.html" class="bottom-nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-candlestick-icon lucide-chart-candlestick"><path d="M9 5v4"/><rect width="4" height="6" x="7" y="9" rx="1"/><path d="M9 15v2"/><path d="M17 3v2"/><rect width="4" height="8" x="15" y="5" rx="1"/><path d="M17 13v3"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/></svg>
+            <span>Manage</span>
+        </a>
+        <a href="marketplace.html" class="bottom-nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-land-plot-icon lucide-land-plot"><path d="m12 8 6-3-6-3v10"/><path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12"/><path d="m6.49 12.85 11.02 6.3"/><path d="M17.51 12.85 6.5 19.15"/></svg>
+            <span>Market</span>
+        </a>
+        <a href="profile.html" class="bottom-nav-item active">
+            <img src="https://ui-avatars.com/api/?name=Test+User&background=0D8ABC&color=fff&rounded=true" alt="User" class="profile-avatar-small">
+            <span>You</span>
+        </a>
+    </nav>
+</body>
+</html>

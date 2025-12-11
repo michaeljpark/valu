@@ -1,0 +1,51 @@
+
+/* Add Button Styles */
+.btn-black-slot {
+    background-color: #000000;
+    color: #FFFFFF;
+    padding: 8px 24px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.btn-black-slot:hover {
+    background-color: #333333;
+}
+
+/* Mobile FAB */
+.mobile-fab-add {
+    position: fixed;
+    bottom: 90px; /* Above bottom nav */
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 999;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.mobile-fab-add:active {
+    transform: scale(0.95);
+}
+
+@media (min-width: 769px) {
+    .mobile-fab-add {
+        display: none;
+    }
+}

@@ -77,7 +77,7 @@ button {
 
 @media (max-width: 768px) {
     .logo img {
-        height: 32px;
+        height: 72px;
     }
 }
 
@@ -624,11 +624,7 @@ tr:last-child td {
     padding: 10px;
 }
 
-.card-title {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 2px;
-}
+.card-title { font-size: 16px; font-weight: 600; margin-bottom: 2px; text-align: left !important; }
 
 .card-desc {
     font-size: 13px;
@@ -818,11 +814,7 @@ tr:last-child td {
     padding: 10px;
 }
 
-.card-title {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 2px;
-}
+.card-title { font-size: 16px; font-weight: 600; margin-bottom: 2px; text-align: left !important; }
 
 .card-desc {
     font-size: 13px;
@@ -5814,6 +5806,21 @@ body:has(.home-container) .header {
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
     cursor: pointer;
     transition: transform 0.2s;
+    position: relative; /* For absolute positioning of More button */
+}
+
+.mobile-more-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 4px 12px;
+    border-radius: 100px;
+    border: 1px solid #E2E8F0;
+    background: #FFFFFF;
+    color: #64748B;
+    font-size: 12px;
+    font-weight: 500;
+    z-index: 2;
 }
 
 .mobile-asset-card:active {
@@ -5922,21 +5929,14 @@ body:has(.home-container) .header {
 /* Mobile Title Adjustment */
 @media (max-width: 768px) {
     .container {
-        padding: 0px !important; /* Removed padding completely */
+        padding: 0 24px !important; /* Added side padding */
     }
     
-    /* Add padding back to header and content internally */
-    .header, 
-    .post-asset-container {
-        padding-left: 12px;
-        padding-right: 12px;
-    }
-
     .desktop-only-title {
         display: none !important;
     }
     .mobile-only-title {
-        display: block !important;
+        display: flex !important; /* Changed to flex for alignment */
         font-size: 20px !important; /* Bigger text */
         text-align: left !important;
         margin-bottom: 16px !important;
@@ -6147,5 +6147,416 @@ body:has(.home-container) .header {
         margin-top: 24px !important;
         padding: 0 12px; /* Match container padding */
     }
+}
+
+
+/* Add Button Styles */
+.btn-black-slot {
+    background-color: #000000;
+    color: #FFFFFF;
+    padding: 8px 24px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.btn-black-slot:hover {
+    background-color: #333333;
+}
+
+/* Mobile FAB */
+.mobile-fab-add {
+    position: fixed;
+    bottom: 90px; /* Above bottom nav */
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 999;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.mobile-fab-add:active {
+    transform: scale(0.95);
+}
+
+@media (min-width: 769px) {
+    .mobile-fab-add {
+        display: none;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .currency-symbol {
+        display: none !important;
+    }
+    .price-input {
+        padding-left: 16px !important;
+    }
+}
+
+
+/* User Profile Header */
+.user-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 20px;
+    padding-right: 20px;
+    border-right: 1px solid #E2E8F0;
+}
+
+.user-profile-header .profile-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; background-color: transparent; }
+
+.user-profile-header .profile-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0F172A;
+}
+
+@media (max-width: 768px) {
+    .user-profile-header {
+        display: none;
+    }
+}
+
+/* Bottom Nav Profile */
+.bottom-nav-item .profile-avatar-small {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 2px;
+    border: 2px solid transparent;
+}
+
+.bottom-nav-item.active .profile-avatar-small {
+    border-color: #0F172A;
+}
+
+
+/* Mobile Profile Item Adjustments */
+.bottom-nav-item:last-child span {
+    display: none;
+}
+
+.bottom-nav-item .profile-avatar-small {
+    width: 32px !important;
+    height: 32px !important;
+    margin-bottom: 0 !important;
+}
+
+
+/* Profile Page Styles */
+.profile-page-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding-bottom: 80px;
+}
+
+/* Chat Section */
+.chat-section {
+    margin-bottom: 32px;
+}
+
+.chat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.chat-item { display: flex; align-items: center; gap: 16px; padding: 12px 16px; background: transparent; border-radius: 8px; border: none; cursor: pointer; transition: background-color 0.2s; }
+
+.chat-item:hover {
+    background-color: #F9FAFB;
+}
+
+.chat-avatar-wrapper {
+    position: relative;
+}
+
+.chat-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.status-dot {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.status-dot.online {
+    background-color: #10B981;
+}
+
+.status-dot.offline {
+    background-color: #9CA3AF;
+}
+
+.chat-content {
+    flex: 1;
+    min-width: 0; /* For text truncation */
+}
+
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.chat-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.chat-time {
+    font-size: 12px;
+    color: #6B7280;
+}
+
+.chat-preview {
+    font-size: 14px;
+    color: #6B7280;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chat-item.unread .chat-preview {
+    color: #111827;
+    font-weight: 500;
+}
+
+.unread-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #EF4444;
+}
+
+/* Profile Section */
+.profile-section {
+    margin-bottom: 32px;
+}
+
+.profile-card {
+    background: white;
+    border-radius: 24px;
+    border: 1px solid #E5E7EB;
+    overflow: hidden;
+}
+
+.profile-header-large { padding: 32px; display: flex; flex-direction: column; align-items: center; text-align: center; border-bottom: none; background-color: white; }
+
+.profile-avatar-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 16px;
+    border: 4px solid white;
+    box-shadow: none;
+}
+
+.profile-name-large {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 4px;
+}
+
+.profile-email {
+    font-size: 14px;
+    color: #6B7280;
+}
+
+.profile-options {
+    padding: 8px 0;
+}
+
+.profile-option-item {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    color: #374151;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.profile-option-item:hover {
+    background-color: #F3F4F6;
+}
+
+.option-icon { width: 36px; height: 36px; border-radius: 8px; background-color: transparent; display: flex; align-items: center; justify-content: center; margin-right: 16px; color: #4B5563; font-size: 16px; }
+
+.option-text {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.option-arrow {
+    font-size: 14px;
+    color: #9CA3AF;
+}
+
+.profile-option-item.logout {
+    color: #EF4444;
+    border-top: 1px solid #E5E7EB;
+    margin-top: 8px;
+}
+
+.profile-option-item.logout .option-icon {
+    background-color: #FEF2F2;
+    color: #EF4444;
+}
+
+
+/* Desktop Profile Page Layout */
+@media (min-width: 768px) {
+    .profile-page-container {
+        max-width: 1200px;
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Left Messages, Right Profile */
+        gap: 40px;
+        align-items: start;
+    }
+
+    .chat-section {
+        margin-bottom: 0;
+    }
+    
+    .profile-section {
+        margin-bottom: 0;
+    }
+}
+
+/* Ensure Section Titles are Left Aligned */
+.section-title {
+    text-align: left !important;
+}
+
+
+
+
+
+/* Force Chat Content to be Transparent/White */
+.chat-content, .chat-header {
+    background-color: transparent !important;
+}
+
+.chat-item {
+    border-bottom: 1px solid #F3F4F6;
+    border-radius: 0 !important;
+    padding: 16px 0 !important;
+}
+
+.chat-item:last-child {
+    border-bottom: none;
+}
+
+.chat-item:hover {
+    background-color: transparent !important; /* Instagram doesn't have strong hover on mobile/web usually, or very subtle */
+}
+
+.chat-item:hover .chat-name {
+    color: #6B7280; /* Subtle interaction */
+}
+
+
+/* Refine Chat List for Instagram Look */
+.chat-list {
+    gap: 0 !important; /* Remove gap for continuous list */
+}
+
+.chat-item {
+    padding: 12px 16px !important; /* Add side padding back */
+    background-color: #FFFFFF !important; /* Explicitly white to be safe */
+}
+
+.chat-item:hover {
+    background-color: #FAFAFA !important; /* Very subtle hover */
+}
+
+.chat-content {
+    background-color: transparent !important;
+}
+
+/* Ensure text colors are sharp */
+.chat-name {
+    color: #000000 !important;
+    font-weight: 600;
+}
+
+.chat-preview {
+    color: #737373 !important; /* Instagram gray */
+}
+
+.chat-time {
+    color: #737373 !important;
+}
+
+
+/* Desktop Chat List Scroll */
+@media (min-width: 768px) {
+    .chat-list {
+        max-height: 580px; /* Approximate height of profile card */
+        overflow-y: auto;
+        /* Hide Scrollbar */
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+    
+    .chat-list::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+
+/* Mobile Chat List Scroll */
+@media (max-width: 767px) {
+    .chat-list {
+        max-height: 400px; /* Crop list on mobile */
+        overflow-y: auto;
+        /* Hide Scrollbar */
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    
+    .chat-list::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+
+/* Increase Section Title Size for Profile Page */
+.profile-page-container .section-title {
+    font-size: 20px !important;
+    font-weight: 700;
 }
 

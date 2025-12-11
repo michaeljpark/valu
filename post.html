@@ -24,6 +24,10 @@
                 </picture>
             </a>
             <div class="nav-actions">
+                <div class="user-profile-header">
+                    <img src="https://ui-avatars.com/api/?name=Test+User&background=0D8ABC&color=fff&rounded=true" alt="User" class="profile-avatar">
+                    <span class="profile-name">testuser_1</span>
+                </div>
                 <div class="nav-switch">
                     <a href="index.html" class="btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-to-back-icon lucide-send-to-back"><rect x="14" y="14" width="8" height="8" rx="2"/><rect x="2" y="2" width="8" height="8" rx="2"/><path d="M7 14v1a2 2 0 0 0 2 2h1"/><path d="M14 7h1a2 2 0 0 1 2 2v1"/></svg> My Value
@@ -43,10 +47,20 @@
 
         <div class="post-asset-container">
             <!-- Asset List Section -->
-            <h2 class="section-title mobile-only-title" style="display: none; text-align: left; font-size: 16px; margin-bottom: 16px; padding: 0 4px;">Your Assets</h2>
+            <div class="mobile-only-title" style="display: none; justify-content: space-between; align-items: center; margin-bottom: 16px; padding: 0 4px;">
+                <h2 class="section-title" style="text-align: left; font-size: 16px; margin-bottom: 0;">Your Assets</h2>
+                <button class="btn-black-slot" onclick="window.location.href='evaluation.html'" style="padding: 6px 16px; font-size: 12px;">
+                    <i class="fa-solid fa-plus"></i> Add
+                </button>
+            </div>
             
             <div class="assets-section" style="margin-bottom: 32px;">
-                <h2 class="section-title desktop-only-title" style="text-align: left !important; font-size: 16px !important;">Your Assets</h2>
+                <div class="desktop-only-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <h2 class="section-title" style="text-align: left !important; font-size: 16px !important; margin-bottom: 0 !important;">Your Assets</h2>
+                    <button class="btn-black-slot" onclick="window.location.href='evaluation.html'">
+                        <i class="fa-solid fa-plus"></i> Add
+                    </button>
+                </div>
                 
                 <!-- Desktop Table -->
                 <div class="table-container">
@@ -342,6 +356,7 @@
                 if (mobileList) {
                     mobileList.innerHTML = myAssets.map((asset, index) => `
                         <div class="mobile-asset-card" onclick="selectAsset(${index})">
+                            <button class="mobile-more-btn">#${index + 1}</button>
                             <div class="mobile-asset-thumb">
                                 ${asset.icon}
                             </div>
@@ -350,9 +365,9 @@
                                 <div class="mobile-asset-meta">
                                     <span class="badge">${asset.category}</span>
                                     <span>$${asset.currentValue.toLocaleString()}</span>
+                                    ${asset.status === 'selling' ? '<span style="font-size: 10px; color: #EF4444; font-weight: 600;">Selling</span>' : ''}
                                 </div>
                             </div>
-                            ${asset.status === 'selling' ? '<span style="font-size: 10px; color: #EF4444; font-weight: 600;">Selling</span>' : '<i class="fa-solid fa-chevron-right" style="color: #CBD5E1;"></i>'}
                         </div>
                     `).join('');
                 }
@@ -753,6 +768,12 @@
             }
         });
     </script>
+    
+    <!-- Mobile Floating Add Button (Removed) -->
+    <!-- <button class="mobile-fab-add" onclick="alert('Add Asset feature coming soon!')">
+        <i class="fa-solid fa-plus"></i>
+    </button> -->
+
     <nav class="bottom-nav">
         <a href="index.html" class="bottom-nav-item">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-to-back-icon lucide-send-to-back"><rect x="14" y="14" width="8" height="8" rx="2"/><rect x="2" y="2" width="8" height="8" rx="2"/><path d="M7 14v1a2 2 0 0 0 2 2h1"/><path d="M14 7h1a2 2 0 0 1 2 2v1"/></svg>
@@ -766,9 +787,9 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-land-plot-icon lucide-land-plot"><path d="m12 8 6-3-6-3v10"/><path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12"/><path d="m6.49 12.85 11.02 6.3"/><path d="M17.51 12.85 6.5 19.15"/></svg>
             <span>Market</span>
         </a>
-        <a href="#" class="bottom-nav-item">
-            <i class="fa-regular fa-circle-user" style="font-size: 24px;"></i>
-            <span>Settings</span>
+        <a href="profile.html" class="bottom-nav-item">
+            <img src="https://ui-avatars.com/api/?name=Test+User&background=0D8ABC&color=fff&rounded=true" alt="User" class="profile-avatar-small">
+            <span>You</span>
         </a>
     </nav>
 </body>

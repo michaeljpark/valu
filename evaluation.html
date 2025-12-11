@@ -18,24 +18,28 @@
         <header class="header">
             <a href="index.html" class="logo">
                 <picture>
-                    <source media="(max-width: 768px)" srcset="valu text.svg">
+                    <source media="(max-width: 768px)" srcset="valu%20text.svg">
                     <img src="valuweb.svg" alt="Valu">
                 </picture>
             </a>
             <div class="nav-actions">
+                <div class="user-profile-header">
+                    <img src="https://ui-avatars.com/api/?name=Test+User&background=0D8ABC&color=fff&rounded=true" alt="User" class="profile-avatar">
+                    <span class="profile-name">testuser_1</span>
+                </div>
                 <div class="nav-switch">
                     <a href="index.html" class="btn">
-                        <i class="fa-regular fa-user"></i> My Value
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-to-back-icon lucide-send-to-back"><rect x="14" y="14" width="8" height="8" rx="2"/><rect x="2" y="2" width="8" height="8" rx="2"/><path d="M7 14v1a2 2 0 0 0 2 2h1"/><path d="M14 7h1a2 2 0 0 1 2 2v1"/></svg> My Value
                     </a>
                     <a href="post.html" class="btn">
-                        <i class="fa-solid fa-list-check"></i> Manage
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-candlestick-icon lucide-chart-candlestick"><path d="M9 5v4"/><rect width="4" height="6" x="7" y="9" rx="1"/><path d="M9 15v2"/><path d="M17 3v2"/><rect width="4" height="8" x="15" y="5" rx="1"/><path d="M17 13v3"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/></svg> Manage
                     </a>
                     <a href="evaluation.html" class="btn active">
                         Evaluation
                     </a>
                 </div>
                 <a href="marketplace.html" class="btn" style="color: #6B7280;">
-                    <i class="fa-solid fa-store"></i> Market
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-land-plot-icon lucide-land-plot"><path d="m12 8 6-3-6-3v10"/><path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12"/><path d="m6.49 12.85 11.02 6.3"/><path d="M17.51 12.85 6.5 19.15"/></svg> Market
                 </a>
             </div>
         </header>
@@ -43,7 +47,7 @@
         <div class="post-asset-container">
             <!-- Post Details Section -->
             <div class="post-details-section" style="margin-bottom: 32px;">
-                <h3 class="analysis-title">Asset Details</h3>
+                <h3 class="analysis-title" style="text-align: left !important; font-size: 24px !important;">Asset Details</h3>
                 <div class="analysis-card" style="padding: 24px;">
                     
                     <!-- Title Input -->
@@ -60,8 +64,8 @@
                         </div>
                         <div class="price-input-wrapper" style="position: relative; display: flex; gap: 12px;">
                             <div style="position: relative; flex: 1;">
-                                <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 24px; font-weight: 600; color: #374151;">$</span>
-                                <input type="number" id="post-price-input" class="form-input" placeholder="0" style="width: 100%; padding: 16px 16px 16px 36px; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 24px; font-weight: 700; outline: none;">
+                                <span class="currency-symbol" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 20px; font-weight: 600; color: #374151;">$</span>
+                                <input type="number" id="post-price-input" class="form-input price-input" placeholder="0" style="width: 100%; padding: 16px 16px 16px 36px; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 24px; font-weight: 700; outline: none;">
                             </div>
                             <div class="price-controls">
                                 <button class="price-adjust-btn" onclick="adjustPrice(-10)"><i class="fa-solid fa-minus"></i></button>
@@ -90,8 +94,8 @@
                         <div style="display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center;">
                             <label class="form-label" style="font-weight: 600; color: #374151;">Description</label>
                             <div style="display: flex; gap: 12px; align-items: center;">
-                                <button id="rewrite-btn" onclick="rewriteDescription()" style="background: none; border: none; color: #4F46E5; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 4px;">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i> Rewrite with AI
+                                <button id="rewrite-btn" onclick="rewriteDescription()" style="background: none; border: none; color: #10B981; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                                    <img src="valuapp.svg" alt="AI" style="width: 16px; height: 16px; filter: invert(57%) sepia(96%) saturate(349%) hue-rotate(103deg) brightness(91%) contrast(92%);"> Rewrite with AI
                                 </button>
                                 <span id="char-count" style="font-size: 12px; color: #6B7280;">0 / 1000</span>
                             </div>
@@ -102,13 +106,16 @@
                     <!-- Hashtags -->
                     <div class="form-group">
                         <label class="form-label" style="display: block; margin-bottom: 12px; font-weight: 600; color: #374151;">Tags</label>
-                        <div class="tags-container" id="tags-container" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+                        <div class="tags-container" id="tags-container" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; align-items: center;">
                             <button class="tag-pill" onclick="removeTag(this)">#Vintage</button>
                             <button class="tag-pill" onclick="removeTag(this)">#MintCondition</button>
                             <button class="tag-pill" onclick="removeTag(this)">#Rare</button>
                             <button class="tag-pill" onclick="removeTag(this)">#LimitedEdition</button>
+                            <button onclick="addEmptyTag()" style="width: 32px; height: 32px; border-radius: 50%; background: #F3F4F6; border: 1px solid #E5E7EB; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #6B7280;">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
                         </div>
-                        <div class="custom-tag-input" style="display: flex; gap: 8px;">
+                        <div class="custom-tag-input" style="display: none; gap: 8px;">
                             <input type="text" id="custom-tag-input" placeholder="Add custom tag..." style="flex: 1; padding: 8px 16px; border: 1px solid #E5E7EB; border-radius: 100px; font-size: 14px; outline: none;">
                             <button onclick="addCustomTag()" style="padding: 8px 20px; background: #111827; color: white; border: none; border-radius: 100px; font-size: 14px; font-weight: 500; cursor: pointer;">Add</button>
                         </div>
@@ -499,7 +506,25 @@
         function adjustPrice(amount) {
             const priceInput = document.getElementById('post-price-input');
             let current = parseInt(priceInput.value) || 0;
-            current += amount;
+            
+            // Determine step size based on AI Estimated Price
+            let step = 10; // Default
+            if (aiEstimatedPrice > 0) {
+                // 5% of AI Price
+                step = Math.round(aiEstimatedPrice * 0.05);
+                // Round to nearest 10 or 100 for cleaner numbers
+                if (step > 100) step = Math.round(step / 50) * 50;
+                else if (step > 10) step = Math.round(step / 10) * 10;
+                if (step < 1) step = 1;
+            }
+
+            // Use the sign of 'amount' to determine direction
+            if (amount > 0) {
+                current += step;
+            } else {
+                current -= step;
+            }
+
             if (current < 0) current = 0;
             priceInput.value = current;
             userPrice = current;
@@ -590,6 +615,19 @@
             }
         }
 
+        function addEmptyTag() {
+            const container = document.getElementById('tags-container');
+            const addButton = container.querySelector('button:last-child'); // The + button
+            
+            const newTag = document.createElement('button');
+            newTag.className = 'tag-pill';
+            newTag.textContent = '#';
+            newTag.onclick = function() { removeTag(this); };
+            
+            // Insert before the + button
+            container.insertBefore(newTag, addButton);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             // Title Input Listener for AI Price
             const titleInput = document.querySelector('.post-details-section input[type="text"]'); // The first text input in that section
@@ -665,20 +703,20 @@
     </script>
     <nav class="bottom-nav">
         <a href="index.html" class="bottom-nav-item">
-            <i class="fa-regular fa-user"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-to-back-icon lucide-send-to-back"><rect x="14" y="14" width="8" height="8" rx="2"/><rect x="2" y="2" width="8" height="8" rx="2"/><path d="M7 14v1a2 2 0 0 0 2 2h1"/><path d="M14 7h1a2 2 0 0 1 2 2v1"/></svg>
             <span>My Value</span>
         </a>
         <a href="post.html" class="bottom-nav-item">
-            <i class="fa-solid fa-list-check"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-candlestick-icon lucide-chart-candlestick"><path d="M9 5v4"/><rect width="4" height="6" x="7" y="9" rx="1"/><path d="M9 15v2"/><path d="M17 3v2"/><rect width="4" height="8" x="15" y="5" rx="1"/><path d="M17 13v3"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/></svg>
             <span>Manage</span>
         </a>
         <a href="marketplace.html" class="bottom-nav-item">
-            <i class="fa-solid fa-store"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-land-plot-icon lucide-land-plot"><path d="m12 8 6-3-6-3v10"/><path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12"/><path d="m6.49 12.85 11.02 6.3"/><path d="M17.51 12.85 6.5 19.15"/></svg>
             <span>Market</span>
         </a>
-        <a href="#" class="bottom-nav-item">
-            <i class="fa-regular fa-circle-user" style="font-size: 24px;"></i>
-            <span>Settings</span>
+        <a href="profile.html" class="bottom-nav-item">
+            <img src="https://ui-avatars.com/api/?name=Test+User&background=0D8ABC&color=fff&rounded=true" alt="User" class="profile-avatar-small">
+            <span>You</span>
         </a>
     </nav>
 </body>
