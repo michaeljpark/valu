@@ -19,24 +19,24 @@
         <header class="header">
             <a href="index.html" class="logo">
                 <picture>
-                    <source media="(max-width: 768px)" srcset="valuapp.svg">
+                    <source media="(max-width: 768px)" srcset="valu text.svg">
                     <img src="valuweb.svg" alt="Valu">
                 </picture>
             </a>
             <div class="nav-actions">
                 <div class="nav-switch">
                     <a href="index.html" class="btn active">
-                        <i class="fa-regular fa-user"></i> My Value
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-to-back-icon lucide-send-to-back"><rect x="14" y="14" width="8" height="8" rx="2"/><rect x="2" y="2" width="8" height="8" rx="2"/><path d="M7 14v1a2 2 0 0 0 2 2h1"/><path d="M14 7h1a2 2 0 0 1 2 2v1"/></svg> My Value
                     </a>
                     <a href="post.html" class="btn">
-                        <i class="fa-solid fa-list-check"></i> Manage
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-candlestick-icon lucide-chart-candlestick"><path d="M9 5v4"/><rect width="4" height="6" x="7" y="9" rx="1"/><path d="M9 15v2"/><path d="M17 3v2"/><rect width="4" height="8" x="15" y="5" rx="1"/><path d="M17 13v3"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/></svg> Manage
                     </a>
                     <a href="evaluation.html" class="btn">
                         Evaluation
                     </a>
                 </div>
                 <a href="marketplace.html" class="btn" style="color: #6B7280;">
-                    <i class="fa-solid fa-store"></i> Market
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-land-plot-icon lucide-land-plot"><path d="m12 8 6-3-6-3v10"/><path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12"/><path d="m6.49 12.85 11.02 6.3"/><path d="M17.51 12.85 6.5 19.15"/></svg> Market
                 </a>
             </div>
         </header>
@@ -46,6 +46,13 @@
             <!-- 1. Single Stat Card (Auto-rotating) -->
             <div class="stats-single-card-container">
                 <div class="stats-single-card" id="stats-single-card">
+                    <!-- Controls -->
+                    <div class="stats-nav-controls">
+                        <button id="stats-prev-btn" class="stats-nav-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                        <span id="stats-counter" class="stats-counter">1 / 4</span>
+                        <button id="stats-next-btn" class="stats-nav-btn"><i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+
                     <!-- Slide 1: Original Value -->
                     <div class="stat-slide active">
                         <div class="stat-icon-wrapper">
@@ -160,33 +167,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr onclick="window.location.href='post.html?title=Vintage%20Camera%20Collection'" style="cursor: pointer;">
-                            <td>
-                                <div class="asset-cell">
-                                    <div class="asset-img-placeholder">
-                                        <img src="valu text.svg" alt="Placeholder">
-                                    </div>
-                                    <div class="asset-info">
-                                        <h4>Vintage Camera Collection</h4>
-                                        <p>Excellent</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td><span class="badge badge-collectibles">Collectibles</span></td>
-                            <td>$2,500</td>
-                            <td>
-                                <div class="value-slot">
-                                    $2,200
-                                    <div class="ai-tooltip">
-                                        <span class="tooltip-header">AI Analyzer says:</span>
-                                        Market saturation for 1980s models has slightly depressed prices, but pristine
-                                        condition maintains value.
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-danger"><i class="fa-solid fa-arrow-trend-down"></i> $-300</td>
-                            <td class="text-danger">-12.00%</td>
-                        </tr>
                         <tr onclick="window.location.href='post.html?title=Limited%20Edition%20Sneakers'" style="cursor: pointer;">
                             <td>
                                 <div class="asset-cell">
@@ -213,6 +193,33 @@
                             </td>
                             <td class="text-success"><i class="fa-solid fa-arrow-trend-up"></i> +$400</td>
                             <td class="text-success">+22.2%</td>
+                        </tr>
+                        <tr onclick="window.location.href='post.html?title=Vintage%20Camera%20Collection'" style="cursor: pointer;">
+                            <td>
+                                <div class="asset-cell">
+                                    <div class="asset-img-placeholder">
+                                        <img src="valu text.svg" alt="Placeholder">
+                                    </div>
+                                    <div class="asset-info">
+                                        <h4>Vintage Camera Collection</h4>
+                                        <p>Excellent</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge badge-collectibles">Collectibles</span></td>
+                            <td>$2,100</td>
+                            <td>
+                                <div class="value-slot">
+                                    $2,200
+                                    <div class="ai-tooltip">
+                                        <span class="tooltip-header">AI Analyzer says:</span>
+                                        Market saturation for 1980s models has slightly depressed prices, but pristine
+                                        condition maintains value.
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-success"><i class="fa-solid fa-arrow-trend-up"></i> +$100</td>
+                            <td class="text-success">+4.76%</td>
                         </tr>
                         <tr onclick="window.location.href='post.html?title=Abstract%20Art%20Painting'" style="cursor: pointer;">
                             <td>
@@ -344,15 +351,15 @@
     </script>
     <nav class="bottom-nav">
         <a href="index.html" class="bottom-nav-item active">
-            <i class="fa-regular fa-user"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-to-back-icon lucide-send-to-back"><rect x="14" y="14" width="8" height="8" rx="2"/><rect x="2" y="2" width="8" height="8" rx="2"/><path d="M7 14v1a2 2 0 0 0 2 2h1"/><path d="M14 7h1a2 2 0 0 1 2 2v1"/></svg>
             <span>My Value</span>
         </a>
         <a href="post.html" class="bottom-nav-item">
-            <i class="fa-solid fa-list-check"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-candlestick-icon lucide-chart-candlestick"><path d="M9 5v4"/><rect width="4" height="6" x="7" y="9" rx="1"/><path d="M9 15v2"/><path d="M17 3v2"/><rect width="4" height="8" x="15" y="5" rx="1"/><path d="M17 13v3"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/></svg>
             <span>Manage</span>
         </a>
         <a href="marketplace.html" class="bottom-nav-item">
-            <i class="fa-solid fa-store"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-land-plot-icon lucide-land-plot"><path d="m12 8 6-3-6-3v10"/><path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12"/><path d="m6.49 12.85 11.02 6.3"/><path d="M17.51 12.85 6.5 19.15"/></svg>
             <span>Market</span>
         </a>
         <a href="#" class="bottom-nav-item">

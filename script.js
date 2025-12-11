@@ -497,6 +497,9 @@ function initStatsCarousel() {
  const slides = document.querySelectorAll('.stat-slide');
  const dots = document.querySelectorAll('.stat-dot');
  const container = document.querySelector('.stats-single-card');
+ const prevBtn = document.getElementById('stats-prev-btn');
+ const nextBtn = document.getElementById('stats-next-btn');
+ const counter = document.getElementById('stats-counter');
  
  if (!slides.length || !container) return;
 
@@ -513,6 +516,9 @@ function initStatsCarousel() {
         slides[index].classList.add('active');
         dots[index].classList.add('active');
         currentSlide = index;
+        
+        // Update Counter
+        if(counter) counter.textContent = `${index + 1} / ${slides.length}`;
     } function nextSlide() {
  let next = (currentSlide + 1) % slides.length;
  showSlide(next);
@@ -630,6 +636,25 @@ function initStatsCarousel() {
  startAutoRotate(); // Reset timer
  });
  });
+ 
+ // Button Controls
+ if(prevBtn) {
+     prevBtn.addEventListener('click', (e) => {
+         e.stopPropagation(); // Prevent card click/drag
+         prevSlide();
+         stopAutoRotate();
+         startAutoRotate();
+     });
+ }
+ 
+ if(nextBtn) {
+     nextBtn.addEventListener('click', (e) => {
+         e.stopPropagation();
+         nextSlide();
+         stopAutoRotate();
+         startAutoRotate();
+     });
+ }
 
  // Start
  startAutoRotate();
@@ -644,17 +669,6 @@ if (!myAssets || myAssets.length === 0) {
     myAssets = [
     { 
         id: 1, 
-        title: 'Vintage Camera Collection', 
-        category: 'Collectibles', 
-        icon: '<img src="valu text.svg" class="asset-icon-img" alt="Valu">',
-        purchasePrice: 2500, 
-        currentValue: 2200, 
-        change: '-12.00%',
-        aiDesc: 'Market saturation for 1980s models has slightly depressed prices, but pristine condition maintains value.',
-        chartData: [2500, 2450, 2400, 2350, 2300, 2250, 2200]
-    },
-    { 
-        id: 2, 
         title: 'Limited Edition Sneakers', 
         category: 'Fashion', 
         icon: '<img src="valu text.svg" class="asset-icon-img" alt="Valu">',
@@ -663,6 +677,17 @@ if (!myAssets || myAssets.length === 0) {
         change: '+22.2%',
         aiDesc: 'High demand in secondary markets driven by recent celebrity endorsements and limited supply.',
         chartData: [1800, 1850, 1900, 2000, 2100, 2150, 2200]
+    },
+    { 
+        id: 2, 
+        title: 'Vintage Camera Collection', 
+        category: 'Collectibles', 
+        icon: '<img src="valu text.svg" class="asset-icon-img" alt="Valu">',
+        purchasePrice: 2100, 
+        currentValue: 2200, 
+        change: '-12.00%',
+        aiDesc: 'Market saturation for 1980s models has slightly depressed prices, but pristine condition maintains value.',
+        chartData: [2500, 2450, 2400, 2350, 2300, 2250, 2200]
     },
     { 
         id: 3, 
@@ -712,8 +737,8 @@ if (!myAssets || myAssets.length === 0) {
     localStorage.setItem('myAssets', JSON.stringify(myAssets));
 }
 
-let currentAssetIndex = 0;
-const loadedAssets = new Set(); // Track which assets have AI Generated data
+let currentAssetIndex = 1; // Start from 2nd item
+// const loadedAssets = new Set(); // Removed: Bulk loading simulated
 
 function initAssetHistory() {
     const container = document.getElementById('asset-history-card');
@@ -726,7 +751,7 @@ function initAssetHistory() {
     // Generate Indicators
     if (indicatorsContainer) {
         indicatorsContainer.innerHTML = myAssets.map((_, i) => 
-            `<span class="asset-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>`
+            `<span class="asset-dot ${i === currentAssetIndex ? 'active' : ''}" data-index="${i}"></span>`
         ).join('');
 
         // Indicator Click
@@ -740,17 +765,41 @@ function initAssetHistory() {
     }
 
     // Initial Render
-    loadAsset(0);
+    loadAsset(currentAssetIndex);
+    
+    // Auto-rotate for Asset History
+    let assetInterval;
+    function startAssetAutoRotate() {
+        if (assetInterval) clearInterval(assetInterval);
+        assetInterval = setInterval(() => {
+            currentAssetIndex = (currentAssetIndex + 1) % myAssets.length;
+            loadAsset(currentAssetIndex);
+        }, 5000); // 5 seconds
+    }
+    
+    function stopAssetAutoRotate() {
+        if (assetInterval) clearInterval(assetInterval);
+    }
+    
+    startAssetAutoRotate();
+    
+    container.addEventListener('mouseenter', stopAssetAutoRotate);
+    container.addEventListener('mouseleave', startAssetAutoRotate);
+    container.addEventListener('touchstart', stopAssetAutoRotate);
 
     // Event Listeners
     prevBtn.addEventListener('click', () => {
+        stopAssetAutoRotate();
         currentAssetIndex = (currentAssetIndex - 1 + myAssets.length) % myAssets.length;
         loadAsset(currentAssetIndex);
+        startAssetAutoRotate();
     });
 
     nextBtn.addEventListener('click', () => {
+        stopAssetAutoRotate();
         currentAssetIndex = (currentAssetIndex + 1) % myAssets.length;
         loadAsset(currentAssetIndex);
+        startAssetAutoRotate();
     });
 
     // Swipe Support (Touch)
@@ -808,24 +857,8 @@ function loadAsset(index) {
         else dot.classList.remove('active');
     });
 
-    // Check if already loaded (simulated AI delay)
-    if (loadedAssets.has(index)) {
-        renderAssetContent(asset);
-    } else {
-        // Show Loading State
-        container.innerHTML = `
-            <div class="asset-loading">
-                <div class="loading-spinner"></div>
-                <p>AI Analyzing Market Data for ${asset.title}...</p>
-            </div>
-        `;
-
-        // Simulate Delay
-        setTimeout(() => {
-            loadedAssets.add(index);
-            renderAssetContent(asset);
-        }, 1500); // 1.5s delay
-    }
+    // Direct Render (Bulk Loaded from Backend)
+    renderAssetContent(asset);
 }
 
 function renderAssetContent(asset) {
@@ -855,8 +888,8 @@ function renderAssetContent(asset) {
                     </div>
                 </div>
 
+                <div class="ai-label" style="margin-bottom: 4px; padding-left: 4px;">Valu Insight</div>
                 <div class="asset-ai-desc">
-                    <div class="ai-label">Valu Insight</div>
                     <p class="ai-text">${asset.aiDesc}</p>
                 </div>
             </div>
@@ -948,4 +981,92 @@ function renderAssetMiniChart(asset, containerId) {
         .attr("stroke", color)
         .attr("stroke-width", 2);
 }
+
+/* --- AI Chatbot Logic --- */
+function initChatbot() {
+    const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('chat-send-btn');
+    const messagesContainer = document.getElementById('chat-messages');
+    const countSpan = document.getElementById('chat-asset-count');
+
+    if (!chatInput || !messagesContainer) return;
+
+    // Update Asset Count
+    if (countSpan && typeof myAssets !== 'undefined') {
+        countSpan.textContent = myAssets.length;
+    }
+
+    function addMessage(text, sender) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${sender}`;
+        msgDiv.innerHTML = `
+            <div class="message-content">
+                ${text}
+            </div>
+        `;
+        messagesContainer.appendChild(msgDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function handleSend() {
+        const text = chatInput.value.trim();
+        if (!text) return;
+
+        // 1. User Message
+        addMessage(text, 'user');
+        chatInput.value = '';
+
+        // 2. AI Processing (Simulated Backend)
+        setTimeout(() => {
+            const response = generateAIResponse(text);
+            addMessage(response, 'ai');
+        }, 600);
+    }
+
+    sendBtn.addEventListener('click', handleSend);
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleSend();
+    });
+}
+
+function generateAIResponse(userText) {
+    const lowerText = userText.toLowerCase();
+    
+    // Context: myAssets
+    const assets = typeof myAssets !== 'undefined' ? myAssets : [];
+    const totalValue = assets.reduce((sum, a) => sum + a.currentValue, 0);
+    
+    // 1. Total Value Query
+    if (lowerText.includes('total') || lowerText.includes('worth') || lowerText.includes('portfolio')) {
+        return `Your current portfolio consists of ${assets.length} assets with a total market value of <strong>$${totalValue.toLocaleString()}</strong>. It's a solid foundation.`;
+    }
+
+    // 2. Selling Advice
+    if (lowerText.includes('sell') || lowerText.includes('selling')) {
+        // Find highest gainer
+        const bestAsset = [...assets].sort((a, b) => b.currentValue - a.currentValue)[0];
+        if (bestAsset) {
+            return `Based on current market trends, your <strong>${bestAsset.title}</strong> is valued highly at $${bestAsset.currentValue.toLocaleString()}. If you're looking for liquidity, this would be your strongest exit right now.`;
+        }
+        return "To give you the best selling advice, I'd need to analyze the specific market conditions for each item. Generally, look for assets with high demand and low supply.";
+    }
+
+    // 3. Specific Asset Query
+    const foundAsset = assets.find(a => lowerText.includes(a.title.toLowerCase()) || lowerText.includes(a.category.toLowerCase()));
+    if (foundAsset) {
+        const isProfit = foundAsset.currentValue >= foundAsset.purchasePrice;
+        return `<strong>${foundAsset.title}</strong> is currently valued at $${foundAsset.currentValue.toLocaleString()}. ${isProfit ? 'It has appreciated nicely.' : 'It is currently below purchase price.'} ${foundAsset.aiDesc}`;
+    }
+
+    // 4. General / Identity
+    if (lowerText.includes('who are you') || lowerText.includes('help')) {
+        return "I am your dedicated Valu Financial Analyst. I monitor market trends to help you manage your physical asset portfolio. Ask me about your total value, specific items, or selling strategies.";
+    }
+
+    // Default
+    return "That's an interesting point. As your portfolio manager, I suggest we keep an eye on market trends for your collectibles. Is there a specific asset you'd like me to re-evaluate?";
+}
+
+// Initialize Chatbot if on page
+document.addEventListener('DOMContentLoaded', initChatbot);
 

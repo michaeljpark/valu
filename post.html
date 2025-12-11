@@ -19,32 +19,36 @@
         <header class="header">
             <a href="index.html" class="logo">
                 <picture>
-                    <source media="(max-width: 768px)" srcset="valuapp.svg">
+                    <source media="(max-width: 768px)" srcset="valu text.svg">
                     <img src="valuweb.svg" alt="Valu">
                 </picture>
             </a>
             <div class="nav-actions">
                 <div class="nav-switch">
                     <a href="index.html" class="btn">
-                        <i class="fa-regular fa-user"></i> My Value
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-to-back-icon lucide-send-to-back"><rect x="14" y="14" width="8" height="8" rx="2"/><rect x="2" y="2" width="8" height="8" rx="2"/><path d="M7 14v1a2 2 0 0 0 2 2h1"/><path d="M14 7h1a2 2 0 0 1 2 2v1"/></svg> My Value
                     </a>
                     <a href="post.html" class="btn active">
-                        <i class="fa-solid fa-list-check"></i> Manage
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-candlestick-icon lucide-chart-candlestick"><path d="M9 5v4"/><rect width="4" height="6" x="7" y="9" rx="1"/><path d="M9 15v2"/><path d="M17 3v2"/><rect width="4" height="8" x="15" y="5" rx="1"/><path d="M17 13v3"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/></svg> Manage
                     </a>
                     <a href="evaluation.html" class="btn">
                         Evaluation
                     </a>
                 </div>
                 <a href="marketplace.html" class="btn" style="color: #6B7280;">
-                    <i class="fa-solid fa-store"></i> Market
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-land-plot-icon lucide-land-plot"><path d="m12 8 6-3-6-3v10"/><path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12"/><path d="m6.49 12.85 11.02 6.3"/><path d="M17.51 12.85 6.5 19.15"/></svg> Market
                 </a>
             </div>
         </header>
 
         <div class="post-asset-container">
             <!-- Asset List Section -->
+            <h2 class="section-title mobile-only-title" style="display: none; text-align: left; font-size: 16px; margin-bottom: 16px; padding: 0 4px;">Your Assets</h2>
+            
             <div class="assets-section" style="margin-bottom: 32px;">
-                <h2 class="section-title">Your Assets</h2>
+                <h2 class="section-title desktop-only-title" style="text-align: left !important; font-size: 16px !important;">Your Assets</h2>
+                
+                <!-- Desktop Table -->
                 <div class="table-container">
                     <table id="manage-asset-table">
                         <thead>
@@ -60,6 +64,38 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Mobile List (Cards) -->
+                <div id="mobile-asset-list" class="mobile-asset-list">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- AI Financial Advisor Chat -->
+            <div class="chat-section" style="margin-top: 32px;">
+                <div class="chat-card">
+                    <div class="chat-header">
+                        <div class="chat-avatar" style="padding: 8px; display: flex; align-items: center; justify-content: center;">
+                            <img src="valuapp.svg" alt="Valu AI" style="width: 100%; height: 100%; filter: brightness(0) invert(1); transform: translateY(2px);">
+                        </div>
+                        <div class="chat-meta">
+                            <h3>Valu.ai</h3>
+                            <span class="status-indicator">Online</span>
+                        </div>
+                    </div>
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="message ai">
+                            <div class="message-content">
+                                Hello! I'm your personal Financial Analyst. I have access to your portfolio of <span id="chat-asset-count">0</span> assets. How can I help you optimize your value today?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="chat-input" placeholder="Ask about your assets, valuation, or selling advice..." autocomplete="off">
+                        <button id="chat-send-btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-horizontal-icon lucide-send-horizontal"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z"/><path d="M6 12h16"/></svg></button>
+                    </div>
+                </div>
+            </div>
             </div>
 
             <!-- Edit Section (Hidden initially) -->
@@ -218,6 +254,19 @@
 
     <script src="script.js"></script>
     
+    <!-- Mobile Detail Overlay -->
+    <div id="mobile-detail-overlay" class="mobile-detail-overlay">
+        <div class="mobile-detail-content">
+            <div class="mobile-detail-header">
+                <h3>Edit Asset</h3>
+                <button id="close-mobile-overlay" class="btn-close-overlay"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="mobile-edit-container-wrapper">
+                <!-- Edit Container will be moved here on mobile -->
+            </div>
+        </div>
+    </div>
+
     <!-- Marketplace Confirmation Modal -->
     <div id="marketplace-modal" class="modal-overlay">
         <div class="modal-content">
@@ -259,10 +308,16 @@
                 if (detailRow) {
                     detailRow.style.display = 'none';
                 }
+                // Also close mobile overlay if open
+                const overlay = document.getElementById('mobile-detail-overlay');
+                if (overlay && overlay.style.display === 'flex') {
+                    overlay.style.display = 'none';
+                }
             });
 
             // Render List
             function renderList() {
+                // Desktop Table
                 listBody.innerHTML = myAssets.map((asset, index) => `
                     <tr id="asset-row-${index}" onclick="selectAsset(${index})" style="cursor: pointer;">
                         <td>
@@ -281,6 +336,26 @@
                         <td><button class="btn" style="color: #4F46E5;">Edit</button></td>
                     </tr>
                 `).join('');
+
+                // Mobile List
+                const mobileList = document.getElementById('mobile-asset-list');
+                if (mobileList) {
+                    mobileList.innerHTML = myAssets.map((asset, index) => `
+                        <div class="mobile-asset-card" onclick="selectAsset(${index})">
+                            <div class="mobile-asset-thumb">
+                                ${asset.icon}
+                            </div>
+                            <div class="mobile-asset-info">
+                                <h4>${asset.title}</h4>
+                                <div class="mobile-asset-meta">
+                                    <span class="badge">${asset.category}</span>
+                                    <span>$${asset.currentValue.toLocaleString()}</span>
+                                </div>
+                            </div>
+                            ${asset.status === 'selling' ? '<span style="font-size: 10px; color: #EF4444; font-weight: 600;">Selling</span>' : '<i class="fa-solid fa-chevron-right" style="color: #CBD5E1;"></i>'}
+                        </div>
+                    `).join('');
+                }
             }
 
             let currentSimPrice = 0;
@@ -288,62 +363,82 @@
 
             window.selectAsset = function(index) {
                 const asset = myAssets[index];
-                const row = document.getElementById(`asset-row-${index}`);
-                
-                // Check if details are already open for this row
-                const nextRow = row.nextElementSibling;
-                if (nextRow && nextRow.id === 'detail-row') {
-                    // Toggle visibility
-                    if (nextRow.style.display === 'none') {
-                        nextRow.style.display = 'table-row';
-                        // Re-populate if needed, but DOM is there
-                    } else {
-                        nextRow.style.display = 'none';
-                        return; // Close and exit
-                    }
-                } else {
-                    // Move container to new row
-                    const detailRow = document.createElement('tr');
-                    detailRow.id = 'detail-row';
-                    const detailCell = document.createElement('td');
-                    detailCell.colSpan = 4;
-                    detailCell.style.padding = '0';
-                    detailCell.style.borderBottom = '1px solid #E2E8F0';
-                    
-                    // Remove existing detail row if any
-                    const existingDetailRow = document.getElementById('detail-row');
-                    if (existingDetailRow) {
-                        existingDetailRow.remove();
-                    }
+                const isMobile = window.innerWidth <= 768;
 
-                    // Append container
+                if (isMobile) {
+                    // Mobile Logic: Open Overlay
+                    const overlay = document.getElementById('mobile-detail-overlay');
+                    const wrapper = document.getElementById('mobile-edit-container-wrapper');
+                    
+                    // Move edit container to overlay
+                    wrapper.appendChild(editContainer);
                     editContainer.style.display = 'block';
-                    editContainer.style.borderTop = '1px solid #E2E8F0';
-                    editContainer.style.background = '#FFFFFF'; // Changed to White
-                    // Padding is handled by CSS for responsiveness
+                    editContainer.style.borderTop = 'none'; // Reset styles
                     
-                    // Animation Wrapper
-                    const animationWrapper = document.createElement('div');
-                    animationWrapper.style.overflow = 'hidden';
-                    animationWrapper.style.maxHeight = '0';
-                    animationWrapper.style.opacity = '0';
-                    animationWrapper.style.transition = 'max-height 0.4s ease-out, opacity 0.3s ease-in';
+                    overlay.style.display = 'flex';
                     
-                    animationWrapper.appendChild(editContainer);
-                    detailCell.appendChild(animationWrapper);
-                    detailRow.appendChild(detailCell);
+                    // Close handler for overlay
+                    document.getElementById('close-mobile-overlay').onclick = () => {
+                        overlay.style.display = 'none';
+                        // Optional: Move container back to a safe place or leave it
+                    };
+                } else {
+                    // Desktop Logic: Accordion
+                    const row = document.getElementById(`asset-row-${index}`);
                     
-                    // Insert after clicked row
-                    row.parentNode.insertBefore(detailRow, row.nextSibling);
+                    // Check if details are already open for this row
+                    const nextRow = row.nextElementSibling;
+                    if (nextRow && nextRow.id === 'detail-row') {
+                        // Toggle visibility
+                        if (nextRow.style.display === 'none') {
+                            nextRow.style.display = 'table-row';
+                        } else {
+                            nextRow.style.display = 'none';
+                            return; // Close and exit
+                        }
+                    } else {
+                        // Move container to new row
+                        const detailRow = document.createElement('tr');
+                        detailRow.id = 'detail-row';
+                        const detailCell = document.createElement('td');
+                        detailCell.colSpan = 4;
+                        detailCell.style.padding = '0';
+                        detailCell.style.borderBottom = '1px solid #E2E8F0';
+                        
+                        // Remove existing detail row if any
+                        const existingDetailRow = document.getElementById('detail-row');
+                        if (existingDetailRow) {
+                            existingDetailRow.remove();
+                        }
 
-                    // Trigger Animation
-                    requestAnimationFrame(() => {
-                        animationWrapper.style.maxHeight = '2000px'; // Large enough
-                        animationWrapper.style.opacity = '1';
-                    });
+                        // Append container
+                        editContainer.style.display = 'block';
+                        editContainer.style.borderTop = '1px solid #E2E8F0';
+                        editContainer.style.background = '#FFFFFF';
+                        
+                        // Animation Wrapper
+                        const animationWrapper = document.createElement('div');
+                        animationWrapper.style.overflow = 'hidden';
+                        animationWrapper.style.maxHeight = '0';
+                        animationWrapper.style.opacity = '0';
+                        animationWrapper.style.transition = 'max-height 0.4s ease-out, opacity 0.3s ease-in';
+                        
+                        animationWrapper.appendChild(editContainer);
+                        detailCell.appendChild(animationWrapper);
+                        detailRow.appendChild(detailCell);
+                        
+                        // Insert after clicked row
+                        row.parentNode.insertBefore(detailRow, row.nextSibling);
+
+                        // Trigger Animation
+                        requestAnimationFrame(() => {
+                            animationWrapper.style.maxHeight = '2000px';
+                            animationWrapper.style.opacity = '1';
+                        });
+                    }
                 }
 
-                // Populate Fields
+                // Populate Fields (Common)
                 document.getElementById('edit-title').value = asset.title;
                 document.getElementById('edit-purchase-price').value = asset.purchasePrice;
                 document.getElementById('edit-current-value-display').textContent = '$' + asset.currentValue.toLocaleString();
@@ -660,15 +755,15 @@
     </script>
     <nav class="bottom-nav">
         <a href="index.html" class="bottom-nav-item">
-            <i class="fa-regular fa-user"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send-to-back-icon lucide-send-to-back"><rect x="14" y="14" width="8" height="8" rx="2"/><rect x="2" y="2" width="8" height="8" rx="2"/><path d="M7 14v1a2 2 0 0 0 2 2h1"/><path d="M14 7h1a2 2 0 0 1 2 2v1"/></svg>
             <span>My Value</span>
         </a>
         <a href="post.html" class="bottom-nav-item active">
-            <i class="fa-solid fa-list-check"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-candlestick-icon lucide-chart-candlestick"><path d="M9 5v4"/><rect width="4" height="6" x="7" y="9" rx="1"/><path d="M9 15v2"/><path d="M17 3v2"/><rect width="4" height="8" x="15" y="5" rx="1"/><path d="M17 13v3"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/></svg>
             <span>Manage</span>
         </a>
         <a href="marketplace.html" class="bottom-nav-item">
-            <i class="fa-solid fa-store"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-land-plot-icon lucide-land-plot"><path d="m12 8 6-3-6-3v10"/><path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12"/><path d="m6.49 12.85 11.02 6.3"/><path d="M17.51 12.85 6.5 19.15"/></svg>
             <span>Market</span>
         </a>
         <a href="#" class="bottom-nav-item">
