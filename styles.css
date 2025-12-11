@@ -4507,3 +4507,1221 @@ body:has(.home-container) .header {
     }
 }
 
+
+/* New Dashboard Layout */
+.dashboard-grid {
+ display: flex;
+ flex-direction: column;
+ gap: 24px;
+}
+
+/* Stats Carousel */
+.stats-carousel-container {
+ width: 100%;
+ overflow: hidden;
+}
+
+.stats-carousel {
+ display: flex;
+ gap: 16px;
+ overflow-x: auto;
+ padding-bottom: 8px;
+ scroll-snap-type: x mandatory;
+ -webkit-overflow-scrolling: touch;
+ scrollbar-width: none; /* Firefox */
+}
+
+.stats-carousel::-webkit-scrollbar {
+ display: none; /* Chrome/Safari */
+}
+
+.stats-carousel .stat-card {
+ min-width: 280px;
+ flex: 0 0 auto;
+ scroll-snap-align: start;
+ background: white;
+ border-radius: 16px;
+ padding: 20px;
+ box-shadow: var(--shadow-sm);
+ display: flex;
+ align-items: center;
+ gap: 16px;
+ border: 1px solid #E5E7EB;
+}
+
+/* History Main Card */
+.history-main-card {
+ background: white;
+ border-radius: 24px;
+ padding: 24px;
+ box-shadow: var(--shadow-sm);
+ border: 1px solid #E5E7EB;
+ min-height: 400px;
+ display: flex;
+ flex-direction: column;
+}
+
+.history-chart-wrapper {
+ flex: 1;
+ width: 100%;
+ min-height: 300px;
+}
+
+/* Transaction History List */
+.history-log-list {
+ display: flex;
+ flex-direction: column;
+ gap: 12px;
+}
+
+.history-item {
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 16px;
+ background: white;
+ border-radius: 12px;
+ border: 1px solid #E5E7EB;
+}
+
+.history-item-left {
+ display: flex;
+ align-items: center;
+ gap: 12px;
+}
+
+.history-icon {
+ width: 40px;
+ height: 40px;
+ border-radius: 50%;
+ background: #F3F4F6;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ color: #6B7280;
+}
+
+.history-details h4 {
+ font-size: 15px;
+ font-weight: 600;
+ color: #111827;
+ margin-bottom: 2px;
+}
+
+.history-details p {
+ font-size: 13px;
+ color: #6B7280;
+}
+
+.history-amount {
+ font-weight: 600;
+ font-size: 15px;
+}
+
+.amount-plus { color: #059669; }
+.amount-minus { color: #DC2626; }
+
+@media (min-width: 1024px) {
+ .dashboard-grid {
+ display: grid;
+ grid-template-columns: 300px 1fr;
+ align-items: start;
+ }
+
+ .stats-carousel-container {
+ grid-column: 1;
+ height: 100%;
+ }
+
+ .stats-carousel {
+ flex-direction: column;
+ overflow-x: visible;
+ height: 100%;
+ }
+
+ .stats-carousel .stat-card {
+ width: 100%;
+ min-width: 0;
+ }
+
+ .history-main-card {
+ grid-column: 2;
+ height: 100%;
+ }
+}
+
+
+/* Single Stat Card (Auto-rotating) */
+.stats-single-card-container {
+ width: 100%;
+ display: flex;
+ flex-direction: column;
+ gap: 12px;
+}
+
+.stats-single-card {
+ background: white;
+ border-radius: 24px;
+ padding: 24px;
+ box-shadow: var(--shadow-sm);
+ border: 1px solid #E5E7EB;
+ position: relative;
+ overflow: hidden;
+ min-height: 120px;
+ display: flex;
+ align-items: center;
+ cursor: grab;
+ user-select: none;
+}
+
+.stats-single-card:active {
+ cursor: grabbing;
+}
+
+.stat-slide {
+ display: none;
+ width: 100%;
+ align-items: center;
+ gap: 16px;
+ animation: fadeIn 0.3s ease-in-out;
+}
+
+.stat-slide.active {
+ display: flex;
+}
+
+@keyframes fadeIn {
+ from { opacity: 0; transform: translateY(5px); }
+ to { opacity: 1; transform: translateY(0); }
+}
+
+.stats-indicators {
+ display: flex;
+ justify-content: center;
+ gap: 8px;
+}
+
+.stat-dot {
+ width: 8px;
+ height: 8px;
+ border-radius: 50%;
+ background-color: #E5E7EB;
+ transition: all 0.3s;
+ cursor: pointer;
+}
+
+.stat-dot.active {
+ background-color: #111827;
+ width: 24px;
+ border-radius: 100px;
+}
+
+/* Fix History Card Layout */
+.history-main-card {
+    height: 400px; /* Fixed height to match stats card */
+    display: flex;
+    flex-direction: column;
+}
+
+.history-chart-wrapper {
+    width: 100%;
+    height: 100%;
+    flex: 1;
+}
+
+/* Vertical Slide Animation */
+@keyframes slideVertical {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.stat-slide {
+    display: none;
+    width: 100%;
+    align-items: center;
+    gap: 16px;
+    animation: slideVertical 0.4s ease-out;
+}
+
+@media (min-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: 320px 1fr;
+        align-items: start; /* Don't stretch heights */
+    }
+    
+    .stats-single-card-container {
+        height: 400px; /* Fixed height for the stats card */
+        justify-content: center;
+    }
+
+    .stats-single-card {
+        height: 100%;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    } .stat-slide.active {
+ flex-direction: column;
+ gap: 24px;
+ }
+
+ .stat-slide .stat-icon {
+ width: 64px;
+ height: 64px;
+ font-size: 24px;
+ }
+
+ .stat-slide .stat-value {
+ font-size: 32px;
+ }
+}
+
+
+
+/* Redesigned Stats Card */
+.stats-single-card {
+ position: relative;
+ padding: 32px;
+}
+
+.stat-slide.active {
+ display: flex;
+ flex-direction: column;
+ height: 100%;
+ justify-content: space-between;
+ position: relative;
+}
+
+/* Icon Top Left */
+.stat-icon-wrapper {
+ width: 100%;
+ display: flex;
+ justify-content: flex-start;
+}
+
+.stat-slide .stat-icon {
+ width: 48px;
+ height: 48px;
+ font-size: 20px;
+ border-radius: 12px;
+}
+
+/* Content Center */
+.stat-content-center {
+ text-align: center;
+ margin-top: -20px; /* Pull up slightly to balance */
+}
+
+.stat-content-center h3 {
+ font-size: 16px;
+ color: #6B7280;
+ margin-bottom: 8px;
+ font-weight: 600;
+}
+
+.stat-desc {
+ font-size: 13px;
+ color: #9CA3AF;
+ font-weight: 400;
+ max-width: 200px;
+ margin: 0 auto;
+ line-height: 1.4;
+}
+
+/* Value Bottom Right */
+.stat-value-wrapper {
+ width: 100%;
+ display: flex;
+ justify-content: flex-end;
+ align-items: flex-end;
+}
+
+.stat-slide .stat-value {
+ font-size: 36px;
+ font-weight: 700;
+ color: #111827;
+ line-height: 1;
+}
+
+/* Adjust Indicators Position */
+.stats-indicators {
+ position: absolute;
+ bottom: 24px;
+ left: 50%;
+ transform: translateX(-50%);
+}
+
+/* Ensure History Chart fills width */
+.history-main-card {
+ width: 100%;
+}
+
+
+
+/* Fix Indicators Position - Bottom Left */
+.stats-indicators {
+ position: absolute;
+ bottom: 32px;
+ left: 32px;
+ transform: none; /* Remove centering */
+ display: flex;
+ gap: 8px;
+ z-index: 10;
+}
+
+/* Ensure dots are visible on white */
+.stat-dot {
+ background-color: #F3F4F6; /* Lighter gray for inactive */
+}
+
+.stat-dot.active {
+ background-color: #111827; /* Dark for active */
+}
+
+
+
+/* Asset History Section */
+.section-header-row {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 24px;
+}
+
+.asset-nav-controls {
+ display: flex;
+ align-items: center;
+ gap: 16px;
+ background: white;
+ padding: 8px 16px;
+ border-radius: 100px;
+ border: 1px solid #E5E7EB;
+}
+
+.nav-btn {
+ background: none;
+ border: none;
+ cursor: pointer;
+ color: #6B7280;
+ font-size: 14px;
+ padding: 4px;
+ transition: color 0.2s;
+}
+
+.nav-btn:hover {
+ color: #111827;
+}
+
+#asset-counter {
+ font-size: 14px;
+ font-weight: 600;
+ color: #374151;
+ min-width: 40px;
+ text-align: center;
+}
+
+.asset-history-card {
+ background: white;
+ border-radius: 24px;
+ padding: 32px;
+ border: 1px solid #E5E7EB;
+ min-height: 300px;
+ position: relative;
+}
+
+/* Asset Content Layout */
+.asset-content-grid {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 32px;
+ align-items: center;
+}
+
+@media (max-width: 768px) {
+ .asset-content-grid {
+ grid-template-columns: 1fr;
+ }
+}
+
+.asset-info-col {
+ display: flex;
+ flex-direction: column;
+ gap: 24px;
+}
+
+.asset-header {
+ display: flex;
+ align-items: center;
+ gap: 16px;
+}
+
+.asset-icon-large {
+ width: 64px;
+ height: 64px;
+ border-radius: 16px;
+ background: #F3F4F6;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 24px;
+ color: #4B5563;
+}
+
+.asset-title-group h3 {
+ font-size: 20px;
+ font-weight: 700;
+ color: #111827;
+ margin-bottom: 4px;
+}
+
+.asset-category {
+ font-size: 14px;
+ color: #6B7280;
+}
+
+.asset-stats-row {
+ display: flex;
+ gap: 32px;
+}
+
+.asset-stat-item label {
+ display: block;
+ font-size: 12px;
+ color: #9CA3AF;
+ margin-bottom: 4px;
+}
+
+.asset-stat-item .value {
+ font-size: 24px;
+ font-weight: 700;
+ color: #111827;
+}
+
+.asset-ai-desc {
+ background: #F9FAFB;
+ padding: 20px;
+ border-radius: 16px;
+ border: 1px solid #F3F4F6;
+}
+
+.ai-label {
+ display: flex;
+ align-items: center;
+ gap: 8px;
+ font-size: 12px;
+ font-weight: 600;
+ color: #7C3AED; /* Violet for AI */
+ margin-bottom: 8px;
+}
+
+.ai-text {
+ font-size: 14px;
+ color: #4B5563;
+ line-height: 1.6;
+}
+
+/* Chart Area */
+.asset-chart-col {
+ height: 250px;
+ background: #F9FAFB;
+ border-radius: 16px;
+ position: relative;
+ overflow: hidden;
+}
+
+/* Loading State */
+.asset-loading {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ height: 300px;
+ gap: 16px;
+ color: #6B7280;
+}
+
+.loading-spinner {
+ width: 40px;
+ height: 40px;
+ border: 3px solid #E5E7EB;
+ border-top-color: #111827;
+ border-radius: 50%;
+ animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+ to { transform: rotate(360deg); }
+}
+
+
+
+/* Asset Indicators */
+.asset-indicators {
+ display: flex;
+ justify-content: center;
+ gap: 8px;
+ margin-top: 16px;
+}
+
+.asset-dot {
+ width: 8px;
+ height: 8px;
+ border-radius: 50%;
+ background-color: #E5E7EB;
+ transition: all 0.3s;
+ cursor: pointer;
+}
+
+.asset-dot.active {
+ background-color: #10B981; /* Green to match theme */
+ width: 24px;
+ border-radius: 100px;
+}
+
+/* Valu Insight Label Update */
+.ai-label {
+ color: #10B981 !important; /* Force Green */
+}
+
+
+
+/* Asset Icon Image */
+.asset-icon-img {
+ width: 32px;
+ height: 32px;
+ object-fit: contain;
+}
+
+
+
+/* Mobile Table Adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 4px !important; /* Ultra minimal padding for 300px */
+    }
+
+    /* Mobile Table Optimization */
+    table {
+        width: auto !important; /* Fit content to reduce gap */
+        min-width: 90% !important; /* But keep it substantial */
+        margin: 0 auto !important; /* Center it */
+        table-layout: auto;
+    }
+
+    /* Column Sizing */
+    th:nth-child(1) { 
+        width: auto; 
+        padding-right: 4px !important; /* Small padding */
+    } 
+    th:nth-child(2), td:nth-child(2) { display: none; }
+    
+    th:nth-child(3) { 
+        width: 1%; 
+        white-space: nowrap; 
+        text-align: right; 
+        padding-left: 4px !important; /* Small padding */
+    }
+    td:nth-child(3) { 
+        white-space: nowrap; 
+        text-align: right; 
+        padding-left: 4px !important;
+    }
+    
+    th:nth-child(4), td:nth-child(4) { display: none; }
+
+    /* Compact Cells */
+    th, td {
+        padding: 8px 2px !important;
+        font-size: 11px !important;
+    }
+
+    /* Asset Info Compact */
+    .asset-cell {
+        display: flex;
+        align-items: center;
+        gap: 4px; /* Reduced gap */
+        width: 100%;
+    }
+
+    .asset-img-placeholder {
+        width: 24px !important;
+        height: 24px !important;
+        min-width: 24px !important;
+        font-size: 10px;
+        flex-shrink: 0;
+    }
+    
+    .asset-info {
+        min-width: 0;
+        flex: 1;
+        overflow: hidden;
+    }
+
+    .asset-info h4 {
+        font-size: 11px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 40vw !important; 
+    }
+
+    /* Edit Container Adjustments */
+    #edit-asset-container {
+        width: auto !important; /* Match table width behavior */
+        min-width: 90% !important;
+        margin: 0 auto !important;
+        box-sizing: border-box;
+        padding: 8px 0px !important;
+    }
+
+    /* Remove Card Styling on Mobile to save space */
+    .asset-history-card {
+        padding: 0 !important;
+        border: none !important;
+        background: transparent !important;
+        border-radius: 0 !important;
+        min-height: auto !important;
+        box-shadow: none !important;
+    }
+
+    .asset-content-grid {
+        grid-template-columns: 1fr !important;
+        gap: 4px !important; /* Reduced gap */
+        width: 100% !important;
+        justify-items: stretch !important;
+    }
+    
+    /* Full width columns */
+    .asset-info-col {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 4px !important; /* Reduced gap between inputs */
+    }
+
+    /* Children fill the column */
+    .form-group, .asset-stats-row, .asset-ai-desc {
+        width: 100% !important;
+        margin-bottom: 4px !important; /* Reduced margin */
+    }
+    
+    /* Button Wrapper */
+    .asset-info-col > div:last-child {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: stretch !important;
+        margin-top: 8px !important; /* Reduced margin */
+    }
+    
+    #save-asset-btn {
+        width: 100% !important;
+        font-size: 12px !important;
+        padding: 8px !important;
+    }
+    
+    /* AI Desc Compact */
+    .asset-ai-desc {
+        padding: 6px !important; /* Reduced padding */
+        margin-top: 4px !important;
+    }
+    
+    .asset-ai-desc .ai-label {
+        font-size: 10px !important;
+        margin-bottom: 2px !important;
+    }
+    
+    .asset-ai-desc .ai-text {
+        font-size: 10px !important;
+    }
+
+    /* Internal UI Scaling */
+    .asset-stats-row {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 4px !important; /* Reduced gap */
+    }
+
+    .asset-stat-item {
+        width: 100% !important;
+    }
+
+    #edit-current-value-display {
+        font-size: 16px !important;
+        margin-top: 2px !important;
+    }
+
+    .form-input {
+        font-size: 12px !important;
+        padding: 6px !important;
+        width: 100% !important;
+        box-sizing: border-box;
+        min-width: 0 !important;
+    }
+
+    .asset-chart-col {
+        height: auto !important; /* Let height adapt */
+        min-height: 120px !important;
+        width: 100% !important;
+        margin: 4px 0 !important;
+    }
+
+    /* Metrics Grid */
+    .sell-metrics-grid, .rent-metrics-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 4px !important; /* Reduced gap */
+        width: 100% !important;
+    }
+
+    .sell-metric-card, .rent-metric-card {
+        padding: 8px !important; /* Keep internal padding for readability */
+        width: 100% !important;
+        box-sizing: border-box;
+        border-radius: 6px !important;
+        margin-bottom: 0 !important;
+    }
+
+    .metric-value {
+        font-size: 14px !important;
+    }
+    
+    /* Force smaller text inside cards */
+    .sell-metric-card *, .rent-metric-card * {
+        font-size: 10px !important;
+    }
+    
+    /* Exception for metric value to be slightly larger */
+    .sell-metric-card .metric-value, .rent-metric-card .metric-value {
+        font-size: 14px !important;
+    }
+
+    /* Simulator Controls Compact */
+    .sim-controls-wrapper {
+        gap: 2px !important;
+    }
+
+    .sim-btn {
+        width: 20px !important; /* Even smaller buttons */
+        height: 20px !important;
+    }
+    
+    .sim-btn i {
+        font-size: 8px !important;
+    }
+
+    .sim-input-container {
+        max-width: none !important;
+        flex: 1 !important;
+    }
+
+    #sim-price-input {
+        font-size: 12px !important;
+        width: 100% !important;
+        padding: 2px !important;
+        text-align: center !important;
+        box-sizing: border-box;
+    }
+
+    .sim-currency-symbol {
+        display: none !important;
+    }
+
+    .price-estimator-container {
+        margin-top: 4px;
+    }
+
+    /* Titles */
+    .section-title, h3 {
+        font-size: 12px !important;
+        margin-bottom: 8px !important;
+        text-align: center !important; /* Center titles */
+    }
+    
+    /* Labels */
+    .form-label, label {
+        font-size: 11px !important;
+    }
+    
+    /* Global Safety for Mobile */
+    * {
+        min-width: 0; /* Allow flex items to shrink below content size */
+        overflow-wrap: break-word; /* Prevent long text from overflowing */
+    }
+    
+    body {
+        overflow-x: hidden;
+        width: 100%;
+    }
+}
+
+
+
+/* Simulator Controls Base Styles */
+.sim-controls-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    gap: 8px;
+}
+
+.sim-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #CBD5E1;
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.sim-btn i {
+    font-size: 12px;
+}
+
+.sim-input-container {
+    position: relative;
+    flex: 1;
+    max-width: 140px;
+    text-align: center;
+}
+
+.sim-currency-symbol {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 700;
+    color: #0F172A;
+    font-size: 20px;
+}
+
+.sim-input-field {
+    width: 100%;
+    padding: 4px 4px 4px 24px;
+    border: 1px solid #CBD5E1;
+    border-radius: 8px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #0F172A;
+    text-align: center;
+    background: transparent;
+    outline: none;
+}
+
+/* Mobile Overrides for Simulator - REMOVED to avoid conflicts with main media query */
+/* The styles previously here are now merged into the main @media (max-width: 768px) block above */
+
+
+
+/* Valu Score Section Styles */
+.valu-score-section {
+    margin-top: 16px;
+    width: 100%;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.score-btn {
+    width: 100%;
+    height: 42px;
+    font-size: 13px;
+    padding: 0 20px;
+    background: #FFFFFF;
+    color: #0F172A;
+    border: 1px solid #E2E8F0;
+    border-radius: 100px; /* Pill shape */
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+.score-btn:hover {
+    background: #F8FAFC;
+    border-color: #CBD5E1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.score-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.score-btn i {
+    font-size: 14px;
+    color: #8B5CF6;
+}
+
+.score-result-card {
+    display: none;
+    margin-top: 16px;
+    background: #FFFFFF;
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    animation: slideDown 0.3s ease-out;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.score-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.score-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.score-percentage {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.score-breakdown {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    text-align: center;
+}
+
+.score-item {
+    background: #F8FAFC;
+    padding: 12px 8px;
+    border-radius: 12px;
+    border: 1px solid #F1F5F9;
+}
+
+.score-item-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #94A3B8;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.score-item-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0F172A;
+}
+
+/* Rent Eligibility Message */
+.rent-eligibility-msg {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+/* Marketplace Modal */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+    background: #FFFFFF;
+    width: 90%;
+    max-width: 400px;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes scaleUp {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+
+/* Safety fixes for Valu Score Layout */
+.valu-score-section {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.score-result-card {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+/* Marketplace Action Button */
+.btn-marketplace-action {
+    width: 100%;
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    border-radius: 100px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: none;
+    color: white;
+    background: #0F172A; /* Default Dark */
+}
+
+.btn-marketplace-action:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.btn-marketplace-action:active {
+    transform: translateY(0);
+}
+
+.btn-marketplace-action.remove {
+    background: #EF4444;
+}
+
+.btn-marketplace-action.remove:hover {
+    background: #DC2626;
+}
+
+/* Rent Eligibility Message Modifiers */
+.rent-eligibility-msg.default {
+    background: #F1F5F9;
+    color: #475569;
+    border: 1px solid transparent;
+}
+
+.rent-eligibility-msg.success {
+    background: #F0FDF4;
+    color: #166534;
+    border: 1px solid #DCFCE7;
+}
+
+.rent-eligibility-msg.error {
+    background: #FEF2F2;
+    color: #991B1B;
+    border: 1px solid #FEE2E2;
+}
+
+/* Modal Header & Icon */
+.modal-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modal-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    background: #DCFCE7;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+.modal-icon-wrapper i {
+    font-size: 24px;
+    color: #166534;
+}
+
+
+/* Score Color Modifiers */
+.score-percentage.high { color: #10B981; }
+.score-percentage.medium { color: #F59E0B; }
+.score-percentage.low { color: #EF4444; }
+
+
+/* Modal Buttons */
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.btn-modal-cancel, .btn-modal-confirm {
+    flex: 1;
+    padding: 12px;
+    border-radius: 100px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.btn-modal-cancel {
+    background: #F1F5F9;
+    color: #475569;
+}
+
+.btn-modal-cancel:hover {
+    background: #E2E8F0;
+}
+
+.btn-modal-confirm {
+    background: #0F172A;
+    color: white;
+}
+
+.btn-modal-confirm:hover {
+    background: #1E293B;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+
+/* New Badge Style */
+.card-badge.new {
+    background: #FEF2F2 !important;
+    color: #EF4444 !important;
+    border: 1px solid #EF4444 !important;
+}
+

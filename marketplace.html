@@ -16,7 +16,7 @@
     <div class="container">
         <!-- Header -->
         <header class="header">
-            <a href="home.html" class="logo">
+            <a href="index.html" class="logo">
                 <div class="mobile-location-header" style="display: none;">Toronto, Ontario</div>
                 <picture class="default-logo">
                     <source media="(max-width: 768px)" srcset="valuapp.svg">
@@ -25,15 +25,18 @@
             </a>
             <div class="nav-actions">
                 <div class="nav-switch">
-                    <a href="marketplace.html" class="btn active">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-grid-icon lucide-layout-grid"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg> My Feed
-                    </a>
                     <a href="index.html" class="btn">
                         <i class="fa-regular fa-user"></i> My Value
                     </a>
+                    <a href="post.html" class="btn">
+                        <i class="fa-solid fa-list-check"></i> Manage
+                    </a>
+                    <a href="evaluation.html" class="btn">
+                        Evaluation
+                    </a>
                 </div>
-                <a href="post.html" class="btn btn-primary">
-                    <i class="fa-solid fa-plus"></i> Post Asset
+                <a href="marketplace.html" class="btn" style="color: #6B7280;">
+                    <i class="fa-solid fa-store"></i> Market
                 </a>
             </div>
         </header>
@@ -100,23 +103,22 @@
         });
     </script>
     <nav class="bottom-nav">
-        <a href="marketplace.html" class="bottom-nav-item active">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-grid-icon lucide-layout-grid"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
-            <span>My Feed</span>
-        </a>
         <a href="index.html" class="bottom-nav-item">
             <i class="fa-regular fa-user"></i>
             <span>My Value</span>
+        </a>
+        <a href="post.html" class="bottom-nav-item">
+            <i class="fa-solid fa-list-check"></i>
+            <span>Manage</span>
+        </a>
+        <a href="marketplace.html" class="bottom-nav-item active">
+            <i class="fa-solid fa-store"></i>
+            <span>Market</span>
         </a>
         <a href="#" class="bottom-nav-item">
             <i class="fa-regular fa-circle-user" style="font-size: 24px;"></i>
             <span>Settings</span>
         </a>
-        <div class="bottom-nav-post-container">
-            <a href="post.html" class="bottom-nav-post">
-                <i class="fa-solid fa-plus"></i>
-            </a>
-        </div>
     </nav>
 </body>
 

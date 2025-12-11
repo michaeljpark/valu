@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Marketplace - Valuation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <a href="index.html" class="logo">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="valuapp.svg">
+                    <img src="valuweb.svg" alt="Valu">
+                </picture>
+            </a>
+            <div class="nav-actions">
+                <div class="nav-switch">
+                    <a href="index.html" class="btn">
+                        <i class="fa-regular fa-user"></i> My Value
+                    </a>
+                    <a href="post.html" class="btn">
+                        <i class="fa-solid fa-list-check"></i> Manage
+                    </a>
+                    <a href="evaluation.html" class="btn active">
+                        Evaluation
+                    </a>
+                </div>
+                <a href="marketplace.html" class="btn" style="color: #6B7280;">
+                    <i class="fa-solid fa-store"></i> Market
+                </a>
+            </div>
+        </header>
+
+        <div class="post-asset-container">
+            <!-- Post Details Section -->
+            <div class="post-details-section" style="margin-bottom: 32px;">
+                <h3 class="analysis-title">Asset Details</h3>
+                <div class="analysis-card" style="padding: 24px;">
+                    
+                    <!-- Title Input -->
+                    <div class="form-group" style="margin-bottom: 24px;">
+                        <label class="form-label" style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Title</label>
+                        <input type="text" class="form-input" placeholder="Enter a title for your post" style="width: 100%; padding: 12px; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 16px; outline: none;">
+                    </div>
+
+                    <!-- Price Input -->
+                    <div class="form-group" style="margin-bottom: 24px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                            <label class="form-label" style="font-weight: 600; color: #374151;">Price</label>
+                            <span id="ai-suggested-price" style="font-size: 13px; color: #6B7280;">AI suggested price: <span id="ai-price-val">Calculating...</span></span>
+                        </div>
+                        <div class="price-input-wrapper" style="position: relative; display: flex; gap: 12px;">
+                            <div style="position: relative; flex: 1;">
+                                <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 24px; font-weight: 600; color: #374151;">$</span>
+                                <input type="number" id="post-price-input" class="form-input" placeholder="0" style="width: 100%; padding: 16px 16px 16px 36px; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 24px; font-weight: 700; outline: none;">
+                            </div>
+                            <div class="price-controls">
+                                <button class="price-adjust-btn" onclick="adjustPrice(-10)"><i class="fa-solid fa-minus"></i></button>
+                                <button class="price-adjust-btn" onclick="adjustPrice(10)"><i class="fa-solid fa-plus"></i></button>
+                            </div>
+                        </div>
+                        
+                        <!-- Time Estimator -->
+                        <div class="price-estimator-container">
+                            <div style="display: flex; justify-content: space-between; font-size: 13px; color: #4B5563; margin-bottom: 4px;">
+                                <span>Est. Time to Sell</span>
+                                <span id="est-time-val" style="font-weight: 600; color: #111827;">-</span>
+                            </div>
+                            <div class="time-estimator-bar">
+                                <div class="time-estimator-fill" id="time-estimator-fill"></div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-size: 11px; color: #9CA3AF;">
+                                <span>Fast</span>
+                                <span>Slow</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description Input -->
+                    <div class="form-group" style="margin-bottom: 24px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center;">
+                            <label class="form-label" style="font-weight: 600; color: #374151;">Description</label>
+                            <div style="display: flex; gap: 12px; align-items: center;">
+                                <button id="rewrite-btn" onclick="rewriteDescription()" style="background: none; border: none; color: #4F46E5; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> Rewrite with AI
+                                </button>
+                                <span id="char-count" style="font-size: 12px; color: #6B7280;">0 / 1000</span>
+                            </div>
+                        </div>
+                        <textarea id="post-description" class="form-input" placeholder="Describe your asset..." maxlength="1000" style="width: 100%; padding: 12px; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 15px; min-height: 120px; resize: vertical; outline: none; font-family: inherit;"></textarea>
+                    </div>
+
+                    <!-- Hashtags -->
+                    <div class="form-group">
+                        <label class="form-label" style="display: block; margin-bottom: 12px; font-weight: 600; color: #374151;">Tags</label>
+                        <div class="tags-container" id="tags-container" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;">
+                            <button class="tag-pill" onclick="removeTag(this)">#Vintage</button>
+                            <button class="tag-pill" onclick="removeTag(this)">#MintCondition</button>
+                            <button class="tag-pill" onclick="removeTag(this)">#Rare</button>
+                            <button class="tag-pill" onclick="removeTag(this)">#LimitedEdition</button>
+                        </div>
+                        <div class="custom-tag-input" style="display: flex; gap: 8px;">
+                            <input type="text" id="custom-tag-input" placeholder="Add custom tag..." style="flex: 1; padding: 8px 16px; border: 1px solid #E5E7EB; border-radius: 100px; font-size: 14px; outline: none;">
+                            <button onclick="addCustomTag()" style="padding: 8px 20px; background: #111827; color: white; border: none; border-radius: 100px; font-size: 14px; font-weight: 500; cursor: pointer;">Add</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- <h2 class="section-title">Post New Asset</h2> -->
+
+            <!-- Asset Analysis Section (Hidden initially) -->
+            <div class="asset-analysis-section" id="asset-analysis" style="display: none;">
+                <h3 class="analysis-title">Asset Analysis</h3>
+
+                <div class="analysis-grid">
+                    <!-- Left: Analysis Card -->
+                    <div class="analysis-card">
+                        <div class="asset-info-row">
+                            <div class="asset-image-placeholder">
+                                <img src="valu text.svg" alt="Placeholder" style="width: 40px; height: auto; opacity: 0.4; filter: grayscale(100%);">
+                            </div>
+                            <div class="asset-details">
+                                <div class="asset-name-edit">
+                                    <input type="text" id="asset-name" class="asset-name-input" value="" readonly>
+                                    <button class="edit-name-btn" id="edit-name-btn">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                </div>
+                                <span class="asset-condition">Analyzing...</span>
+                            </div>
+                        </div>
+                        <div class="analysis-table">
+                            <div class="analysis-row">
+                                <span class="analysis-label">Category</span>
+                                <span class="analysis-value analyzing">Analyzing...</span>
+                            </div>
+                            <div class="analysis-row">
+                                <span class="analysis-label">Original Price</span>
+                                <span class="analysis-value analyzing">Analyzing...</span>
+                            </div>
+                            <div class="analysis-row">
+                                <span class="analysis-label">Current Value</span>
+                                <span class="analysis-value analyzing">Analyzing...</span>
+                            </div>
+                            <div class="analysis-row">
+                                <span class="analysis-label">Gain/Loss</span>
+                                <span class="analysis-value analyzing">Analyzing...</span>
+                            </div>
+                            <div class="analysis-row">
+                                <span class="analysis-label">Return %</span>
+                                <span class="analysis-value analyzing">Analyzing...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: AI Chat -->
+                    <div class="ai-chat-panel">
+                        <div class="chat-messages" id="ai-chat-messages">
+                            <!-- Chat messages will be dynamically added here -->
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="progress-section">
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" id="progress-bar"></div>
+                            </div>
+                            <p class="progress-text" id="progress-text">Processing...</p>
+                        </div>
+
+                        <!-- Chat Input Area -->
+                        <div class="chat-input-area">
+                            <button class="plus-btn" id="plus-btn">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+
+                            <!-- Plus Menu (Hidden by default) -->
+                            <div class="plus-menu" id="plus-menu" style="display: none;">
+                                <button class="menu-item" id="upload-photo-btn">
+                                    <i class="fa-solid fa-image"></i>
+                                    Upload Photo
+                                </button>
+                                <button class="menu-item" id="help-btn">
+                                    <i class="fa-solid fa-circle-question"></i>
+                                    Help
+                                </button>
+                            </div>
+
+                            <input type="text" class="chat-input" id="chat-input" placeholder="Type a message...">
+                            <button class="send-btn" id="send-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z"/>
+                                    <path d="M6 12h16"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="post-grid">
+                <!-- Camera Section -->
+                <div class="camera-section">
+                    <div class="camera-box">
+                        <button id="camera-toggle-btn" class="camera-toggle-btn" title="Start Camera"></button>
+                        <video id="camera-feed" autoplay playsinline muted></video>
+
+                        <!-- Stepper Overlay -->
+                        <div class="stepper-overlay">
+                            <div class="step-node active">
+                                <div class="node-circle">1</div>
+                                <span class="node-label">Scan</span>
+                            </div>
+                            <div class="step-line"></div>
+                            <div class="step-node">
+                                <div class="node-circle">2</div>
+                                <span class="node-label">Analyze</span>
+                            </div>
+                            <div class="step-line"></div>
+                            <div class="step-node">
+                                <div class="node-circle">3</div>
+                                <span class="node-label">Verify</span>
+                            </div>
+                            <div class="step-line"></div>
+                            <div class="step-node">
+                                <div class="node-circle">4</div>
+                                <span class="node-label">Post</span>
+                            </div>
+                        </div>
+
+                        <!-- AI Advice Bubble -->
+                        <div class="ai-advice-bubble" id="ai-advice">
+                            <p id="ai-advice-text">AI agent is recognizing the product...</p>
+                        </div>
+
+                        <div class="camera-controls">
+                            <button id="capture-btn" class="capture-btn">
+                                <div class="capture-inner"></div>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="helper-text">Align your asset within the frame</p>
+                </div>
+
+                <!-- Upload Section -->
+                <div class="upload-section">
+                    <div class="upload-box" id="drop-zone">
+                        <div class="upload-content">
+                            <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+                            <h3>Drag & Drop Photo</h3>
+                            <p>or <span class="browse-link">browse files</span></p>
+                            <p class="upload-hint">Supports JPG, PNG, HEIC</p>
+                        </div>
+                        <input type="file" id="file-input" hidden accept="image/*">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fixed Bottom Button -->
+            <button class="post-submit-btn-fixed" id="post-submit-btn">
+                <i class="fa-solid fa-check"></i> Save to My Value
+            </button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        const stepMessages = [
+            "AI agent is recognizing the product...",
+            "AI agent is analyzing the details...",
+            "AI agent is calculating the product value...",
+            "AI agent has completed the analysis!"
+        ];
+
+        let currentStep = 0;
+        let progressPercent = 0;
+
+        function generateAssetHash() {
+            const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+            let hash = '';
+            for (let i = 0; i < 16; i++) {
+                hash += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return hash + '-001';
+        }
+
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const video = document.getElementById('camera-feed');
+                video.srcObject = stream;
+                
+                // Update button state
+                const btn = document.getElementById('camera-toggle-btn');
+                if (btn) btn.classList.add('active');
+            } catch (err) {
+                console.error("Error accessing camera:", err);
+                document.querySelector('.camera-box').style.backgroundColor = '#1e293b';
+            }
+        }
+
+        function resetToScan() {
+            const stepNodes = document.querySelectorAll('.step-node');
+            stepNodes.forEach(node => node.classList.remove('active'));
+            stepNodes[0].classList.add('active');
+            currentStep = 0;
+            document.getElementById('ai-advice-text').textContent = stepMessages[0];
+        }
+
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progress-bar');
+            progressBar.style.width = progressPercent + '%';
+        }
+
+        function addChatMessage(message, isUser = false, includeImage = true) {
+            const chatContainer = document.getElementById('ai-chat-messages');
+            const bubble = document.createElement('div');
+            bubble.className = isUser ? 'user-chat-bubble' : 'ai-chat-bubble';
+
+            if (isUser) {
+                bubble.innerHTML = `<p>${message}</p>`;
+            } else {
+                if (includeImage) {
+                    bubble.innerHTML = `
+                        <div class="chat-image-placeholder">
+                            <div class="loading-shimmer"></div>
+                        </div>
+                        <p>${message}</p>
+                    `;
+                } else {
+                    bubble.innerHTML = `<p>${message}</p>`;
+                }
+            }
+
+            chatContainer.appendChild(bubble);
+            chatContainer.scrollTo({
+                top: chatContainer.scrollHeight,
+                behavior: 'smooth'
+            });
+        }
+
+        function populateAIChatMessages() {
+            const chatContainer = document.getElementById('ai-chat-messages');
+            const messages = [
+                "Your photo quality is not optimal! I recommend uploading directly for better results.",
+                "The lighting is not bright enough, making it difficult to see details! Try taking the photo in a brighter location.",
+                "The angle is not accurate! Let's try to match the angle more precisely like the photo I'm showing you."
+            ];
+
+            chatContainer.innerHTML = '';
+            messages.forEach((message, index) => {
+                setTimeout(() => {
+                    addChatMessage(message, false, true);
+                }, index * 2000);
+            });
+        }
+
+        function showAssetAnalysis() {
+            const analysisSection = document.getElementById('asset-analysis');
+            const assetNameInput = document.getElementById('asset-name');
+
+            assetNameInput.value = generateAssetHash();
+            analysisSection.style.display = 'block';
+            analysisSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            populateAIChatMessages();
+        }
+
+        function nextStep() {
+            if (currentStep < 3) {
+                const stepNodes = document.querySelectorAll('.step-node');
+                stepNodes[currentStep].classList.remove('active');
+                currentStep++;
+                stepNodes[currentStep].classList.add('active');
+                document.getElementById('ai-advice-text').textContent = stepMessages[currentStep];
+            } else {
+                showAssetAnalysis();
+                resetToScan();
+            }
+        }
+
+        function toggleNameEdit() {
+            const nameInput = document.getElementById('asset-name');
+            const editBtn = document.getElementById('edit-name-btn');
+
+            if (nameInput.readOnly) {
+                nameInput.readOnly = false;
+                nameInput.focus();
+                nameInput.select();
+                editBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
+            } else {
+                nameInput.readOnly = true;
+                editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+            }
+        }
+
+        function togglePlusMenu() {
+            const plusMenu = document.getElementById('plus-menu');
+            plusMenu.style.display = plusMenu.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function sendMessage() {
+            const chatInput = document.getElementById('chat-input');
+            const message = chatInput.value.trim();
+
+            if (message) {
+                addChatMessage(message, true);
+                chatInput.value = '';
+
+                // Increase progress by 25%
+                if (progressPercent < 100) {
+                    progressPercent += 25;
+                    updateProgressBar();
+                    
+                    // Check if progress is complete
+                    if (progressPercent >= 100) {
+                        document.getElementById('progress-text').textContent = 'Analysis Complete!';
+                        document.getElementById('post-submit-btn').style.display = 'flex';
+                    }
+                }
+
+                // Show "Thinking..." without image
+                setTimeout(() => {
+                    addChatMessage('Thinking...', false, false);
+                }, 1000);
+            }
+        }
+
+        function removeTag(element) {
+            element.remove();
+        }
+
+        function addCustomTag() {
+            const input = document.getElementById('custom-tag-input');
+            const tagText = input.value.trim();
+            
+            if (tagText) {
+                const container = document.getElementById('tags-container');
+                const btn = document.createElement('button');
+                btn.className = 'tag-pill';
+                btn.textContent = tagText.startsWith('#') ? tagText : '#' + tagText;
+                btn.onclick = function() { removeTag(this); };
+                container.appendChild(btn);
+                input.value = '';
+            }
+        }
+
+        // Price & Time Estimation Logic
+        let aiEstimatedPrice = 0;
+        let userPrice = 0;
+
+        async function fetchAIPrice(title) {
+            if (!title) return;
+            
+            const aiPriceEl = document.getElementById('ai-price-val');
+            aiPriceEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            
+            try {
+                const response = await fetch(`https://text.pollinations.ai/${encodeURIComponent('Estimate the market price for a used ' + title + '. Return ONLY a single number (e.g. 250). Do not include currency symbols or text.')}`);
+                const text = await response.text();
+                const price = parseInt(text.replace(/[^0-9]/g, ''));
+                
+                if (price && !isNaN(price)) {
+                    aiEstimatedPrice = price;
+                    aiPriceEl.textContent = '$' + price.toLocaleString();
+                    
+                    // Always update user price to match AI suggestion
+                    const priceInput = document.getElementById('post-price-input');
+                    priceInput.value = price;
+                    userPrice = price;
+                    updateTimeEstimation();
+                } else {
+                    throw new Error('Invalid price format');
+                }
+            } catch (e) {
+                console.warn('AI Price fetch failed', e);
+                // Fallback random price
+                const randomPrice = Math.floor(Math.random() * (3000 - 100 + 1)) + 100;
+                aiEstimatedPrice = randomPrice;
+                aiPriceEl.textContent = '$' + randomPrice.toLocaleString();
+                
+                const priceInput = document.getElementById('post-price-input');
+                priceInput.value = randomPrice;
+                userPrice = randomPrice;
+                updateTimeEstimation();
+            }
+        }
+
+        function adjustPrice(amount) {
+            const priceInput = document.getElementById('post-price-input');
+            let current = parseInt(priceInput.value) || 0;
+            current += amount;
+            if (current < 0) current = 0;
+            priceInput.value = current;
+            userPrice = current;
+            updateTimeEstimation();
+        }
+
+        function updateTimeEstimation() {
+            if (aiEstimatedPrice === 0) return;
+            
+            const ratio = userPrice / aiEstimatedPrice;
+            const timeVal = document.getElementById('est-time-val');
+            const fillBar = document.getElementById('time-estimator-fill');
+            
+            let timeText = '';
+            let fillPercent = 0;
+            let color = '';
+
+            if (ratio <= 0.5) {
+                timeText = 'Instantly (< 1 min)';
+                fillPercent = 10;
+                color = '#10B981'; // Green
+            } else if (ratio <= 0.8) {
+                timeText = 'Very Fast (1-3 hours)';
+                fillPercent = 25;
+                color = '#34D399';
+            } else if (ratio <= 0.95) {
+                timeText = 'Fast (12-24 hours)';
+                fillPercent = 40;
+                color = '#60A5FA'; // Blue
+            } else if (ratio <= 1.05) {
+                timeText = 'Average (1-3 days)';
+                fillPercent = 60;
+                color = '#F59E0B'; // Orange
+            } else if (ratio <= 1.2) {
+                timeText = 'Slow (1 week)';
+                fillPercent = 80;
+                color = '#F97316';
+            } else {
+                timeText = 'Very Slow (1 week+)';
+                fillPercent = 100;
+                color = '#EF4444'; // Red
+            }
+
+            timeVal.textContent = timeText;
+            fillBar.style.width = fillPercent + '%';
+            fillBar.style.background = color;
+        }
+
+        async function rewriteDescription() {
+            const descInput = document.getElementById('post-description');
+            const btn = document.getElementById('rewrite-btn');
+            const originalText = descInput.value.trim();
+
+            if (!originalText) {
+                alert('Please enter a description first.');
+                return;
+            }
+
+            // UI Loading State
+            const originalBtnContent = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Rewriting...';
+            btn.disabled = true;
+            descInput.style.opacity = '0.5';
+            descInput.readOnly = true;
+
+            try {
+                const prompt = `Rewrite the following product description to be more professional, engaging, and sales-oriented. Keep it concise (under 1000 chars). Do not add any conversational filler, just the description: "${originalText}"`;
+                const encodedPrompt = encodeURIComponent(prompt);
+                const response = await fetch(`https://text.pollinations.ai/${encodedPrompt}`);
+                
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const newText = await response.text();
+                descInput.value = newText.trim();
+                
+                // Trigger input event to update char count
+                descInput.dispatchEvent(new Event('input'));
+                
+            } catch (error) {
+                console.error('Error rewriting description:', error);
+                alert('Failed to rewrite description. Please try again.');
+            } finally {
+                // Restore UI
+                btn.innerHTML = originalBtnContent;
+                btn.disabled = false;
+                descInput.style.opacity = '1';
+                descInput.readOnly = false;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Title Input Listener for AI Price
+            const titleInput = document.querySelector('.post-details-section input[type="text"]'); // The first text input in that section
+            if (titleInput) {
+                let timeout = null;
+                titleInput.addEventListener('input', (e) => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        fetchAIPrice(e.target.value);
+                    }, 1000); // Wait 1s after typing stops
+                });
+            }
+
+            // Price Input Listener
+            const priceInput = document.getElementById('post-price-input');
+            if (priceInput) {
+                priceInput.addEventListener('input', (e) => {
+                    userPrice = parseInt(e.target.value) || 0;
+                    updateTimeEstimation();
+                });
+            }
+
+            // Character Counter
+            const descInput = document.getElementById('post-description');
+            const charCount = document.getElementById('char-count');
+            
+            if (descInput) {
+                descInput.addEventListener('input', function() {
+                    const current = this.value.length;
+                    charCount.textContent = `${current} / 1000`;
+                    if (current >= 1000) {
+                        charCount.style.color = '#EF4444';
+                    } else {
+                        charCount.style.color = '#6B7280';
+                    }
+                });
+            }
+
+            // Hide button initially
+            document.getElementById('post-submit-btn').style.display = 'none';
+            
+            // startCamera(); // Removed auto-start
+            document.getElementById('camera-toggle-btn').addEventListener('click', startCamera);
+            
+            document.getElementById('capture-btn').addEventListener('click', nextStep);
+            document.getElementById('edit-name-btn').addEventListener('click', toggleNameEdit);
+            document.getElementById('plus-btn').addEventListener('click', togglePlusMenu);
+            document.getElementById('send-btn').addEventListener('click', sendMessage);
+            document.getElementById('chat-input').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+            document.getElementById('post-submit-btn').addEventListener('click', () => {
+                window.location.href = 'marketplace.html';
+            });
+            document.addEventListener('click', (e) => {
+                const plusBtn = document.getElementById('plus-btn');
+                const plusMenu = document.getElementById('plus-menu');
+                if (!plusBtn.contains(e.target) && !plusMenu.contains(e.target)) {
+                    plusMenu.style.display = 'none';
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '0' && window.innerWidth <= 768) {
+                const postBtn = document.querySelector('.nav-actions .btn-primary');
+                if (postBtn) {
+                    postBtn.style.display = postBtn.style.display === 'none' ? 'flex' : 'none';
+                }
+            }
+        });
+    </script>
+    <nav class="bottom-nav">
+        <a href="index.html" class="bottom-nav-item">
+            <i class="fa-regular fa-user"></i>
+            <span>My Value</span>
+        </a>
+        <a href="post.html" class="bottom-nav-item">
+            <i class="fa-solid fa-list-check"></i>
+            <span>Manage</span>
+        </a>
+        <a href="marketplace.html" class="bottom-nav-item">
+            <i class="fa-solid fa-store"></i>
+            <span>Market</span>
+        </a>
+        <a href="#" class="bottom-nav-item">
+            <i class="fa-regular fa-circle-user" style="font-size: 24px;"></i>
+            <span>Settings</span>
+        </a>
+    </nav>
+</body>
+
+</html>

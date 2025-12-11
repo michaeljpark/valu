@@ -1,9 +1,25 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // Check if we are on the portfolio page
-    if (document.getElementById('portfolio-chart')) {
-        renderChart();
+    if (document.getElementById('history-chart')) {
+        // renderChart(); // Pie chart removed
         renderHistoryChart();
+        initStatsCarousel();
+        initAssetHistory(); // Initialize Asset History
+        
+        // Re-render chart on resize
+        window.addEventListener('resize', () => {
+            renderHistoryChart();
+            // Re-render current asset chart if visible
+            const currentAsset = myAssets[currentAssetIndex];
+            if (loadedAssets.has(currentAssetIndex)) {
+                const chartContainer = document.getElementById(`asset-mini-chart-${currentAsset.id}`);
+                if (chartContainer) {
+                    chartContainer.innerHTML = ''; // Clear
+                    renderAssetMiniChart(currentAsset, `asset-mini-chart-${currentAsset.id}`);
+                }
+            }
+        });
     }
     // Check if we are on the marketplace page
     if (document.getElementById('marketplace-container')) {
@@ -13,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-let marketplaceItems = [];
+let marketplaceItems = JSON.parse(localStorage.getItem('marketplaceItems')) || [];
 
 function setupSortListener() {
     const sortSelect = document.getElementById('sort-select');
@@ -356,6 +372,7 @@ function renderMarketplace(category = 'All') {
 
     if (marketplaceItems.length === 0) {
         marketplaceItems = generateMarketplaceItems(20); // Generate 20 items once
+        localStorage.setItem('marketplaceItems', JSON.stringify(marketplaceItems));
     }
 
     let filteredItems = category === 'All'
@@ -392,7 +409,9 @@ function renderMarketplace(category = 'All') {
         <div class="market-card" onclick="window.location.href='listing.html?title=${encodeURIComponent(item.title)}&price=${item.price}&est=${item.est}&img=${encodeURIComponent(item.img)}'" style="cursor: pointer;">
             <div class="card-image-container">
                 <img src="valu text.svg" alt="Placeholder" class="card-placeholder-icon">
-                <div class="card-badge"><i class="fa-solid fa-tag"></i> ${item.badge}</div>
+                <div class="card-badge ${item.isNew ? 'new' : ''}">
+                    <i class="fa-solid fa-tag"></i> ${item.isNew ? 'NEW' : item.badge}
+                </div>
                 <div class="card-like-btn ${isLiked ? 'active' : ''}" onclick="toggleLike(event, '${item.title.replace(/'/g, "\\'")}')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg>
                 </div>
@@ -423,23 +442,28 @@ function renderHistoryLog(data) {
     const container = document.getElementById('history-log');
     if (!container) return;
 
-    // Calculate changes
-    const logData = data.map((item, index) => {
-        const prev = index > 0 ? data[index - 1].value : item.value;
-        const change = item.value - prev;
-        const percent = index > 0 ? ((change / prev) * 100).toFixed(1) : '0.0';
-        return { ...item, change, percent };
-    }).reverse(); // Newest first
+    // Mock Transaction Data (Reverse chronological)
+    const transactions = [
+        { title: 'Vintage Camera Collection', type: 'Appreciation', amount: 150, date: 'Today', icon: '<i class="fa-solid fa-arrow-trend-up"></i>' },
+        { title: 'Luxury Watch Service', type: 'Maintenance', amount: -200, date: 'Yesterday', icon: '<i class="fa-solid fa-wrench"></i>' },
+        { title: 'Limited Edition Sneakers', type: 'New Asset', amount: 1800, date: 'Oct 24', icon: '<i class="fa-solid fa-plus"></i>' },
+        { title: 'Modern Art Piece', type: 'Appreciation', amount: 320, date: 'Oct 15', icon: '<i class="fa-solid fa-arrow-trend-up"></i>' },
+        { title: 'Designer Handbag', type: 'Sold', amount: 2400, date: 'Sep 30', icon: '<i class="fa-solid fa-sack-dollar"></i>' }
+    ];
 
-    container.innerHTML = logData.map(item => `
-        <div class="log-item">
-            <div class="log-date">${item.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
-            <div class="log-info" style="text-align: right;">
-                <div class="log-value">$${item.value.toLocaleString()}</div>
-                ${item.change !== 0 ? `
-                <div class="log-change ${item.change > 0 ? 'positive' : 'negative'}">
-                    ${item.change > 0 ? '+' : ''}${item.change.toLocaleString()} (${item.change > 0 ? '+' : ''}${item.percent}%)
-                </div>` : '<div class="log-change" style="background:#F3F4F6; color:#6B7280;">Initial</div>'}
+    container.innerHTML = transactions.map(tx => `
+        <div class="history-item">
+            <div class="history-item-left">
+                <div class="history-icon">
+                    ${tx.icon}
+                </div>
+                <div class="history-details">
+                    <h4>${tx.title}</h4>
+                    <p>${tx.type} · ${tx.date}</p>
+                </div>
+            </div>
+            <div class="history-amount ${tx.amount > 0 ? 'amount-plus' : 'amount-minus'}">
+                ${tx.amount > 0 ? '+' : ''}$${Math.abs(tx.amount).toLocaleString()}
             </div>
         </div>
     `).join('');
@@ -465,5 +489,463 @@ function toggleLike(event, title) {
     // Update UI
     const btn = event.currentTarget;
     btn.classList.toggle('active');
+}
+
+
+
+function initStatsCarousel() {
+ const slides = document.querySelectorAll('.stat-slide');
+ const dots = document.querySelectorAll('.stat-dot');
+ const container = document.querySelector('.stats-single-card');
+ 
+ if (!slides.length || !container) return;
+
+ let currentSlide = 0;
+ let intervalId;
+ let isPaused = false;
+ let startY = 0;
+ let isDragging = false;
+
+    function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        slides[index].classList.add('active');
+        dots[index].classList.add('active');
+        currentSlide = index;
+    } function nextSlide() {
+ let next = (currentSlide + 1) % slides.length;
+ showSlide(next);
+ }
+
+ function prevSlide() {
+ let prev = (currentSlide - 1 + slides.length) % slides.length;
+ showSlide(prev);
+ }
+
+ function startAutoRotate() {
+ if (intervalId) clearInterval(intervalId);
+ intervalId = setInterval(() => {
+ if (!isPaused) {
+ nextSlide();
+ }
+ }, 4000);
+ }
+
+ function stopAutoRotate() {
+ if (intervalId) clearInterval(intervalId);
+ }
+
+ // Event Listeners
+ container.addEventListener('mouseenter', () => {
+ isPaused = true;
+ stopAutoRotate();
+ });
+
+ container.addEventListener('mouseleave', () => {
+ isPaused = false;
+ startAutoRotate();
+ });
+
+ // Mouse Wheel Support
+ let lastScrollTime = 0;
+ const scrollCooldown = 800; // 800ms cooldown
+
+ container.addEventListener('wheel', (e) => {
+ e.preventDefault(); // Prevent page scrolling
+ 
+ const now = Date.now();
+ if (now - lastScrollTime < scrollCooldown) return;
+
+ if (e.deltaY > 0) {
+ nextSlide();
+ } else {
+ prevSlide();
+ }
+ 
+ lastScrollTime = now;
+ stopAutoRotate();
+ }, { passive: false });
+
+ // Touch/Drag Support (Vertical)
+ container.addEventListener('touchstart', (e) => {
+ startY = e.touches[0].clientY;
+ isPaused = true;
+ stopAutoRotate();
+ });
+
+ container.addEventListener('touchmove', (e) => {
+ // Prevent scrolling while swiping the card
+ // e.preventDefault(); 
+ });
+
+ container.addEventListener('touchend', (e) => {
+ const endY = e.changedTouches[0].clientY;
+ handleSwipe(startY, endY);
+ isPaused = false;
+ startAutoRotate();
+ });
+
+ container.addEventListener('mousedown', (e) => {
+ startY = e.clientY;
+ isDragging = true;
+ isPaused = true;
+ stopAutoRotate();
+ container.style.cursor = 'grabbing';
+ });
+
+ container.addEventListener('mouseup', (e) => {
+ if (!isDragging) return;
+ const endY = e.clientY;
+ handleSwipe(startY, endY);
+ isDragging = false;
+ isPaused = false;
+ startAutoRotate();
+ container.style.cursor = 'grab';
+ });
+
+ container.addEventListener('mouseleave', () => {
+ if (isDragging) {
+ isDragging = false;
+ isPaused = false;
+ startAutoRotate();
+ container.style.cursor = 'grab';
+ }
+ });
+
+ function handleSwipe(start, end) {
+ const threshold = 50;
+ if (start - end > threshold) {
+ nextSlide(); // Swipe Up -> Next
+ } else if (end - start > threshold) {
+ prevSlide(); // Swipe Down -> Prev
+ }
+ }
+
+ // Click on dots
+ dots.forEach((dot, index) => {
+ dot.addEventListener('click', () => {
+ showSlide(index);
+ stopAutoRotate();
+ startAutoRotate(); // Reset timer
+ });
+ });
+
+ // Start
+ startAutoRotate();
+}
+
+
+
+// --- Asset History Manager ---
+let myAssets = JSON.parse(localStorage.getItem('myAssets'));
+
+if (!myAssets || myAssets.length === 0) {
+    myAssets = [
+    { 
+        id: 1, 
+        title: 'Vintage Camera Collection', 
+        category: 'Collectibles', 
+        icon: '<img src="valu text.svg" class="asset-icon-img" alt="Valu">',
+        purchasePrice: 2500, 
+        currentValue: 2200, 
+        change: '-12.00%',
+        aiDesc: 'Market saturation for 1980s models has slightly depressed prices, but pristine condition maintains value.',
+        chartData: [2500, 2450, 2400, 2350, 2300, 2250, 2200]
+    },
+    { 
+        id: 2, 
+        title: 'Limited Edition Sneakers', 
+        category: 'Fashion', 
+        icon: '<img src="valu text.svg" class="asset-icon-img" alt="Valu">',
+        purchasePrice: 1800, 
+        currentValue: 2200, 
+        change: '+22.2%',
+        aiDesc: 'High demand in secondary markets driven by recent celebrity endorsements and limited supply.',
+        chartData: [1800, 1850, 1900, 2000, 2100, 2150, 2200]
+    },
+    { 
+        id: 3, 
+        title: 'Abstract Art Painting', 
+        category: 'Art', 
+        icon: '<img src="valu text.svg" class="asset-icon-img" alt="Valu">',
+        purchasePrice: 850, 
+        currentValue: 1200, 
+        change: '+41.2%',
+        aiDesc: 'Artist\'s recent gallery exhibition has increased visibility and collector interest significantly.',
+        chartData: [850, 900, 950, 1000, 1100, 1150, 1200]
+    },
+    { 
+        id: 4, 
+        title: 'Designer Watch', 
+        category: 'Jewelry', 
+        icon: '<img src="valu text.svg" class="asset-icon-img" alt="Valu">',
+        purchasePrice: 4500, 
+        currentValue: 5000, 
+        change: '+11.1%',
+        aiDesc: 'Steady appreciation due to brand heritage and annual price increases for new models.',
+        chartData: [4500, 4600, 4700, 4800, 4850, 4900, 5000]
+    },
+    { 
+        id: 5, 
+        title: 'Rare Vinyl Records', 
+        category: 'Music', 
+        icon: '<img src="valu text.svg" class="asset-icon-img" alt="Valu">',
+        purchasePrice: 1250, 
+        currentValue: 1400, 
+        change: '+12.0%',
+        aiDesc: 'Niche collector interest remains strong for first pressings in near-mint condition.',
+        chartData: [1250, 1280, 1300, 1320, 1350, 1380, 1400]
+    },
+    { 
+        id: 6, 
+        title: 'Mid-Century Chair', 
+        category: 'Furniture', 
+        icon: '<img src="valu text.svg" class="asset-icon-img" alt="Valu">',
+        purchasePrice: 1950, 
+        currentValue: 2100, 
+        change: '+7.7%',
+        aiDesc: 'Mid-century modern furniture continues to trend, supporting stable value growth.',
+        chartData: [1950, 1980, 2000, 2020, 2050, 2080, 2100]
+    }
+    ];
+    localStorage.setItem('myAssets', JSON.stringify(myAssets));
+}
+
+let currentAssetIndex = 0;
+const loadedAssets = new Set(); // Track which assets have AI Generated data
+
+function initAssetHistory() {
+    const container = document.getElementById('asset-history-card');
+    const prevBtn = document.getElementById('asset-prev-btn');
+    const nextBtn = document.getElementById('asset-next-btn');
+    const indicatorsContainer = document.getElementById('asset-indicators');
+    
+    if (!container) return;
+
+    // Generate Indicators
+    if (indicatorsContainer) {
+        indicatorsContainer.innerHTML = myAssets.map((_, i) => 
+            `<span class="asset-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></span>`
+        ).join('');
+
+        // Indicator Click
+        document.querySelectorAll('.asset-dot').forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                const index = parseInt(e.target.getAttribute('data-index'));
+                currentAssetIndex = index;
+                loadAsset(currentAssetIndex);
+            });
+        });
+    }
+
+    // Initial Render
+    loadAsset(0);
+
+    // Event Listeners
+    prevBtn.addEventListener('click', () => {
+        currentAssetIndex = (currentAssetIndex - 1 + myAssets.length) % myAssets.length;
+        loadAsset(currentAssetIndex);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentAssetIndex = (currentAssetIndex + 1) % myAssets.length;
+        loadAsset(currentAssetIndex);
+    });
+
+    // Swipe Support (Touch)
+    let startX = 0;
+    container.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+    });
+
+    container.addEventListener('touchend', (e) => {
+        const endX = e.changedTouches[0].clientX;
+        const threshold = 50;
+        if (startX - endX > threshold) {
+            // Swipe Left -> Next
+            currentAssetIndex = (currentAssetIndex + 1) % myAssets.length;
+            loadAsset(currentAssetIndex);
+        } else if (endX - startX > threshold) {
+            // Swipe Right -> Prev
+            currentAssetIndex = (currentAssetIndex - 1 + myAssets.length) % myAssets.length;
+            loadAsset(currentAssetIndex);
+        }
+    });
+
+    // Mouse Wheel Support (Hover + Scroll)
+    let lastScrollTime = 0;
+    const scrollCooldown = 800;
+
+    container.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const now = Date.now();
+        if (now - lastScrollTime < scrollCooldown) return;
+
+        if (e.deltaY > 0) {
+            // Scroll Down -> Next
+            currentAssetIndex = (currentAssetIndex + 1) % myAssets.length;
+        } else {
+            // Scroll Up -> Prev
+            currentAssetIndex = (currentAssetIndex - 1 + myAssets.length) % myAssets.length;
+        }
+        loadAsset(currentAssetIndex);
+        lastScrollTime = now;
+    }, { passive: false });
+}
+
+function loadAsset(index) {
+    const container = document.getElementById('asset-history-card');
+    const counter = document.getElementById('asset-counter');
+    const asset = myAssets[index];
+
+    // Update Counter
+    counter.textContent = `${index + 1} / ${myAssets.length}`;
+
+    // Update Indicators
+    document.querySelectorAll('.asset-dot').forEach((dot, i) => {
+        if (i === index) dot.classList.add('active');
+        else dot.classList.remove('active');
+    });
+
+    // Check if already loaded (simulated AI delay)
+    if (loadedAssets.has(index)) {
+        renderAssetContent(asset);
+    } else {
+        // Show Loading State
+        container.innerHTML = `
+            <div class="asset-loading">
+                <div class="loading-spinner"></div>
+                <p>AI Analyzing Market Data for ${asset.title}...</p>
+            </div>
+        `;
+
+        // Simulate Delay
+        setTimeout(() => {
+            loadedAssets.add(index);
+            renderAssetContent(asset);
+        }, 1500); // 1.5s delay
+    }
+}
+
+function renderAssetContent(asset) {
+    const container = document.getElementById('asset-history-card');
+    
+    container.innerHTML = `
+        <div class="asset-content-grid" onclick="window.location.href='post.html?title=${encodeURIComponent(asset.title)}'" style="cursor: pointer;">
+            <div class="asset-info-col">
+                <div class="asset-header">
+                    <div class="asset-icon-large">
+                        ${asset.icon}
+                    </div>
+                    <div class="asset-title-group">
+                        <h3>${asset.title}</h3>
+                        <span class="asset-category">${asset.category}</span>
+                    </div>
+                </div>
+                
+                <div class="asset-stats-row">
+                    <div class="asset-stat-item">
+                        <label>Purchase Price</label>
+                        <div class="value">$${asset.purchasePrice.toLocaleString()}</div>
+                    </div>
+                    <div class="asset-stat-item">
+                        <label>Market Value</label>
+                        <div class="value" style="color: ${asset.currentValue >= asset.purchasePrice ? '#10B981' : '#EF4444'}">${asset.currentValue >= asset.purchasePrice ? '▲' : '▼'} $${asset.currentValue.toLocaleString()}</div>
+                    </div>
+                </div>
+
+                <div class="asset-ai-desc">
+                    <div class="ai-label">Valu Insight</div>
+                    <p class="ai-text">${asset.aiDesc}</p>
+                </div>
+            </div>
+            
+            <div class="asset-chart-col" id="asset-mini-chart-${asset.id}"></div>
+        </div>
+    `;
+
+    // Render Mini Chart
+    renderAssetMiniChart(asset, `asset-mini-chart-${asset.id}`);
+}
+
+function renderAssetMiniChart(asset, containerId) {
+ const container = document.getElementById(containerId);
+ if (!container) return;
+
+ // Use a default width if clientWidth is 0 (e.g. hidden) or very small, 
+ // but we want the coordinate system to be large enough for good resolution.
+ // We will scale it down with CSS.
+ const width = container.clientWidth || 600; 
+ const height = container.clientHeight || 200;
+ const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+
+ const svg = d3.select(`#${containerId}`)
+ .append('svg')
+ .attr('viewBox', `0 0 ${width} ${height}`)
+ // Removed preserveAspectRatio to prevent distortion (squashing)
+ .style('width', '100%')
+ .style('height', 'auto') // Let height adjust to maintain aspect ratio
+ .style('display', 'block');
+
+ const data = asset.chartData.map((val, i) => ({ i, value: val }));
+
+ const x = d3.scaleLinear()
+ .domain([0, data.length - 1])
+ .range([margin.left, width - margin.right]);
+
+ const y = d3.scaleLinear()
+ .domain([d3.min(data, d => d.value) * 0.95, d3.max(data, d => d.value) * 1.05])
+ .range([height - margin.bottom, margin.top]);
+
+ const line = d3.line()
+ .x(d => x(d.i))
+ .y(d => y(d.value))
+ .curve(d3.curveMonotoneX);
+
+ const area = d3.area()
+ .x(d => x(d.i))
+ .y0(height - margin.bottom)
+ .y1(d => y(d.value))
+ .curve(d3.curveMonotoneX);
+
+ const color = asset.currentValue >= asset.purchasePrice ? '#10B981' : '#EF4444';
+
+    // Gradient
+    const defs = svg.append("defs");
+    const gradientId = `grad-${asset.id}`;
+    const gradient = defs.append("linearGradient")
+        .attr("id", gradientId)
+        .attr("x1", "0%")
+        .attr("y1", "0%")
+        .attr("x2", "0%")
+        .attr("y2", "100%");
+
+    gradient.append("stop").attr("offset", "0%").attr("stop-color", color).attr("stop-opacity", 0.2);
+    gradient.append("stop").attr("offset", "100%").attr("stop-color", color).attr("stop-opacity", 0);
+
+    svg.append("path")
+        .datum(data)
+        .attr("fill", `url(#${gradientId})`)
+        .attr("d", area);
+
+    svg.append("path")
+        .datum(data)
+        .attr("fill", "none")
+        .attr("stroke", color)
+        .attr("stroke-width", 3)
+        .attr("d", line);
+        
+    // Add dots
+    svg.selectAll(".dot")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("cx", d => x(d.i))
+        .attr("cy", d => y(d.value))
+        .attr("r", 4)
+        .attr("fill", "white")
+        .attr("stroke", color)
+        .attr("stroke-width", 2);
 }
 
