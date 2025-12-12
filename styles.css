@@ -54,23 +54,6 @@ button {
     padding: 24px;
 }
 
-@media (max-width: 768px) {
-    .dashboard-grid {
-        display: flex;
-        flex-direction: column;
-    }
-    .assets-section {
-        order: 3;
-        margin-top: 24px;
-    }
-    .portfolio-section {
-        order: 2;
-    }
-    .dashboard-card.history-main-card {
-        order: 1;
-    }
-}
-
 /* Header */
 .header {
     display: flex;

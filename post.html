@@ -114,7 +114,7 @@
 
             <!-- Edit Section (Hidden initially) -->
             <div id="edit-asset-container" style="display: none;">
-                <h2 class="section-title">Edit Asset Details</h2>
+                <h2 class="section-title" style="margin-top: 30px; margin-bottom: 30px;">Edit Asset Details</h2>
                 <div class="asset-history-card">
                      <div class="asset-content-grid">
                         <div class="asset-info-col">
@@ -142,8 +142,8 @@
 
                             <!-- Valu Score Section -->
                             <div class="valu-score-section">
-                                <button id="get-valu-score-btn" class="score-btn">
-                                    <i class="fa-solid fa-wand-magic-sparkles"></i> Get Valu Score
+                                <button id="get-valu-score-btn" class="score-btn" style="color: #10B981;">
+                                    <img src="valuapp.svg" alt="Valu" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(41%) sepia(97%) saturate(749%) hue-rotate(110deg) brightness(95%) contrast(92%);"> Get Valu Score
                                 </button>
                                 
                                 <div id="valu-score-result" class="score-result-card">
@@ -312,6 +312,26 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Show info box below graph on desktop immediately
+            if (window.innerWidth > 1024 && !document.getElementById('valu-score-info-box')) {
+                const infoBox = document.createElement('div');
+                infoBox.id = 'valu-score-info-box';
+                infoBox.style.background = '#F3F4F6';
+                infoBox.style.borderRadius = '12px';
+                infoBox.style.padding = '12px 18px';
+                infoBox.style.marginTop = '16px';
+                infoBox.style.fontSize = '13px';
+                infoBox.style.color = '#374151';
+                infoBox.style.width = '100%';
+                infoBox.style.boxSizing = 'border-box';
+                infoBox.style.lineHeight = '1.5';
+                infoBox.style.textAlign = 'center';
+                infoBox.innerText = "The valu score is valu’s product-value assessment tool used when selling or renting an item. If you believe the AI’s valuation is inaccurate, you can contact customer support.";
+                const chartCol = document.getElementById('edit-asset-chart');
+                if (chartCol && chartCol.parentNode) {
+                    chartCol.parentNode.insertAdjacentElement('afterend', infoBox);
+                }
+            }
             const listBody = document.getElementById('manage-asset-list');
             const editContainer = document.getElementById('edit-asset-container');
             
@@ -475,7 +495,8 @@
                 if(scoreBtn) {
                     // Reset button state
                     scoreBtn.style.display = 'flex';
-                    scoreBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles" style="color: #8B5CF6;"></i> Get Valu Score';
+                    scoreBtn.innerHTML = '<img src="valuapp.svg" alt="Valu" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(41%) sepia(97%) saturate(749%) hue-rotate(110deg) brightness(95%) contrast(92%);"> Get Valu Score';
+                    scoreBtn.style.color = '#10B981';
                     scoreBtn.disabled = false;
                     scoreBtn.style.opacity = '1';
                     
@@ -486,10 +507,10 @@
                         scoreBtn.style.opacity = '0.8';
                         
                         const steps = [
-                            '<i class="fa-solid fa-circle-notch fa-spin"></i> Connecting to Market Data...',
-                            '<i class="fa-solid fa-magnifying-glass fa-bounce"></i> Analyzing Rarity...',
-                            '<i class="fa-solid fa-chart-line fa-fade"></i> Calculating Demand...',
-                            '<i class="fa-solid fa-calculator"></i> Finalizing Score...'
+                            '<i class="fa-solid fa-circle-notch fa-spin" style="color: #10B981;"></i> Connecting to Market Data...',
+                            '<i class="fa-solid fa-magnifying-glass fa-bounce" style="color: #10B981;"></i> Analyzing Rarity...',
+                            '<i class="fa-solid fa-chart-line fa-fade" style="color: #10B981;"></i> Calculating Demand...',
+                            '<i class="fa-solid fa-calculator" style="color: #10B981;"></i> Finalizing Score...'
                         ];
 
                         for (const step of steps) {
@@ -524,7 +545,28 @@
                         
                         // Show Result
                         scoreSection.style.display = 'block';
-                        scoreBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Recalculate Score';
+                        // Desktop-only info box below graph
+                        if (!document.getElementById('valu-score-info-box') && window.innerWidth > 1024) {
+                            const infoBox = document.createElement('div');
+                            infoBox.id = 'valu-score-info-box';
+                            infoBox.style.background = '#F3F4F6';
+                            infoBox.style.borderRadius = '12px';
+                            infoBox.style.padding = '12px 18px';
+                            infoBox.style.marginTop = '16px';
+                            infoBox.style.fontSize = '13px';
+                            infoBox.style.color = '#374151';
+                            infoBox.style.width = '100%';
+                            infoBox.style.boxSizing = 'border-box';
+                            infoBox.style.lineHeight = '1.5';
+                            infoBox.style.textAlign = 'center';
+                            infoBox.innerText = "The valu score is valu’s product-value assessment tool used when selling or renting an item. If you believe the AI’s valuation is inaccurate, you can contact customer support.";
+                            // Insert after the chart column
+                            const chartCol = document.getElementById('edit-asset-chart');
+                            if (chartCol && chartCol.parentNode) {
+                                chartCol.parentNode.insertAdjacentElement('afterend', infoBox);
+                            }
+                        }
+                        scoreBtn.innerHTML = '<i class="fa-solid fa-rotate-right" style="color: #10B981;"></i> Recalculate Score';
                         scoreBtn.disabled = false;
                         scoreBtn.style.opacity = '1';
 
