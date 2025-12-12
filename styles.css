@@ -6613,6 +6613,15 @@ body:has(.home-container) .header {
 /* Mobile Marketplace Text Size Reduction */
 @media (max-width: 768px) {
     .market-card {
+        padding: 0 !important; /* Remove padding to let image fill width */
+    }
+
+    .card-image-container {
+        aspect-ratio: 1/1 !important; /* Make it square to take up roughly half the card */
+        width: 100% !important;
+    }
+
+    .card-content {
         padding: 10px !important;
     }
     
@@ -6623,7 +6632,7 @@ body:has(.home-container) .header {
     
     /* Est Value (Black Price) */
     .market-card .stat-pair:last-child .stat-val {
-        font-size: 18px !important; /* Reduced from 36px */
+        font-size: 16px !important; /* Reduced from 18px */
         line-height: 1.1 !important;
     }
     
