@@ -6257,8 +6257,8 @@ body:has(.home-container) .header {
 }
 
 .bottom-nav-item .profile-avatar-small {
-    width: 32px !important;
-    height: 32px !important;
+    width: 24px !important;
+    height: 24px !important;
     margin-bottom: 0 !important;
 }
 
@@ -6558,5 +6558,14 @@ body:has(.home-container) .header {
 .profile-page-container .section-title {
     font-size: 20px !important;
     font-weight: 700;
+}
+
+
+/* Increase Mobile Container Padding */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 24px !important;
+        padding-right: 24px !important;
+    }
 }
 
