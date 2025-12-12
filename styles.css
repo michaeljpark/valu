@@ -6569,3 +6569,12 @@ body:has(.home-container) .header {
     }
 }
 
+
+/* Optimize Profile Page Mobile Layout */
+@media (max-width: 768px) {
+    .profile-page-container {
+        width: 94%; /* Slightly reduce width relative to container */
+        margin: 0 auto;
+    }
+}
+
