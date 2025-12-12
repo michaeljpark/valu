@@ -865,6 +865,16 @@ function loadAsset(index) {
 function renderAssetContent(asset) {
     const container = document.getElementById('asset-history-card');
     
+    // Determine badge class
+    const badgeMap = {
+        'Fashion': 'badge-fashion',
+        'Collectibles': 'badge-collectibles',
+        'Art': 'badge-art',
+        'Jewelry': 'badge-jewelry',
+        'Music': 'badge-music',
+        'Furniture': 'badge-furniture'
+    };
+    const badgeClass = badgeMap[asset.category] || 'badge';
     container.innerHTML = `
         <div class="asset-content-grid" onclick="window.location.href='post.html?title=${encodeURIComponent(asset.title)}'" style="cursor: pointer;">
             <div class="asset-info-col">
@@ -874,10 +884,9 @@ function renderAssetContent(asset) {
                     </div>
                     <div class="asset-title-group">
                         <h3>${asset.title}</h3>
-                        <span class="asset-category">${asset.category}</span>
+                        <span class="badge ${badgeClass}" style="margin-left:6px;">${asset.category}</span>
                     </div>
                 </div>
-                
                 <div class="asset-stats-row">
                     <div class="asset-stat-item">
                         <label>Purchase Price</label>
@@ -888,13 +897,11 @@ function renderAssetContent(asset) {
                         <div class="value" style="color: ${asset.currentValue >= asset.purchasePrice ? '#10B981' : '#EF4444'}">${asset.currentValue >= asset.purchasePrice ? '▲' : '▼'} $${asset.currentValue.toLocaleString()}</div>
                     </div>
                 </div>
-
                 <div class="ai-label" style="margin-bottom: 4px; padding-left: 4px;">Valu Insight</div>
                 <div class="asset-ai-desc">
                     <p class="ai-text">${asset.aiDesc}</p>
                 </div>
             </div>
-            
             <div class="asset-chart-col" id="asset-mini-chart-${asset.id}"></div>
         </div>
     `;

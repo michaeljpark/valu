@@ -54,6 +54,23 @@ button {
     padding: 24px;
 }
 
+@media (max-width: 768px) {
+    .dashboard-grid {
+        display: flex;
+        flex-direction: column;
+    }
+    .assets-section {
+        order: 3;
+        margin-top: 24px;
+    }
+    .portfolio-section {
+        order: 2;
+    }
+    .dashboard-card.history-main-card {
+        order: 1;
+    }
+}
+
 /* Header */
 .header {
     display: flex;
@@ -417,7 +434,8 @@ tr:last-child td {
 .asset-img {
     width: 48px;
     height: 48px;
-    border-radius: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     object-fit: cover;
     background-color: #F3F4F6;
 }
