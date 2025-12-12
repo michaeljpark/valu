@@ -6578,3 +6578,19 @@ body:has(.home-container) .header {
     }
 }
 
+
+/* Fix Mobile Horizontal Scroll & Layout */
+@media (max-width: 768px) {
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+    }
+
+    .profile-page-container {
+        width: 100% !important; /* Reset width to fill container */
+        margin: 0 !important;
+    }
+    
+    /* Adjust container padding if needed, but 24px is good for spacing */
+}
+
