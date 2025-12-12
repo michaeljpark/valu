@@ -225,7 +225,7 @@
                         
                         <!-- Post to Marketplace Button -->
                         <button id="post-marketplace-btn" class="btn-marketplace-action">
-                            <i class="fa-solid fa-shop" style="margin-right: 8px;"></i> Post your asset on marketplace
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="m12 8 6-3-6-3v10"/><path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12"/><path d="m6.49 12.85 11.02 6.3"/><path d="M17.51 12.85 6.5 19.15"/></svg> Post your asset on marketplace
                         </button>
                     </div>
 
@@ -286,7 +286,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-icon-wrapper">
-                    <i class="fa-solid fa-shop"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #166534;"><path d="m12 8 6-3-6-3v10"/><path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12"/><path d="m6.49 12.85 11.02 6.3"/><path d="M17.51 12.85 6.5 19.15"/></svg>
                 </div>
                 <h3 class="modal-title">Post to Marketplace</h3>
                 <p class="modal-desc">
@@ -356,7 +356,7 @@
                 if (mobileList) {
                     mobileList.innerHTML = myAssets.map((asset, index) => `
                         <div class="mobile-asset-card" onclick="selectAsset(${index})">
-                            <button class="mobile-more-btn">#${index + 1}</button>
+                            <button class="mobile-more-btn" onclick="event.stopPropagation()">#${index + 1}</button>
                             <div class="mobile-asset-thumb">
                                 ${asset.icon}
                             </div>
@@ -377,26 +377,32 @@
             let baseMarketPrice = 0;
 
             window.selectAsset = function(index) {
+                if (!myAssets || !myAssets[index]) return;
                 const asset = myAssets[index];
                 const isMobile = window.innerWidth <= 768;
+                const editContainer = document.getElementById('edit-asset-container');
 
                 if (isMobile) {
                     // Mobile Logic: Open Overlay
                     const overlay = document.getElementById('mobile-detail-overlay');
                     const wrapper = document.getElementById('mobile-edit-container-wrapper');
                     
-                    // Move edit container to overlay
-                    wrapper.appendChild(editContainer);
-                    editContainer.style.display = 'block';
-                    editContainer.style.borderTop = 'none'; // Reset styles
-                    
-                    overlay.style.display = 'flex';
-                    
-                    // Close handler for overlay
-                    document.getElementById('close-mobile-overlay').onclick = () => {
-                        overlay.style.display = 'none';
-                        // Optional: Move container back to a safe place or leave it
-                    };
+                    if (overlay && wrapper && editContainer) {
+                        // Move edit container to overlay
+                        wrapper.appendChild(editContainer);
+                        editContainer.style.display = 'block';
+                        editContainer.style.borderTop = 'none'; // Reset styles
+                        
+                        overlay.style.display = 'flex';
+                        
+                        // Close handler for overlay
+                        const closeBtn = document.getElementById('close-mobile-overlay');
+                        if (closeBtn) {
+                            closeBtn.onclick = () => {
+                                overlay.style.display = 'none';
+                            };
+                        }
+                    }
                 } else {
                     // Desktop Logic: Accordion
                     const row = document.getElementById(`asset-row-${index}`);
@@ -592,7 +598,7 @@
                             }
                         };
                     } else {
-                        newPostBtn.innerHTML = '<i class="fa-solid fa-shop" style="margin-right: 8px;"></i> Post your asset on marketplace';
+                        newPostBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="m12 8 6-3-6-3v10"/><path d="m8 11.99-5.5 3.14a1 1 0 0 0 0 1.74l8.5 4.86a2 2 0 0 0 2 0l8.5-4.86a1 1 0 0 0 0-1.74L16 12"/><path d="m6.49 12.85 11.02 6.3"/><path d="M17.51 12.85 6.5 19.15"/></svg> Post your asset on marketplace';
                         newPostBtn.className = 'btn-marketplace-action';
                         newPostBtn.onclick = () => {
                             modal.style.display = 'flex';

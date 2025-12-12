@@ -6594,3 +6594,18 @@ body:has(.home-container) .header {
     /* Adjust container padding if needed, but 24px is good for spacing */
 }
 
+
+/* Fix Mobile Z-Index Issues */
+.modal-overlay {
+    z-index: 3000 !important; /* Ensure it is above mobile detail overlay (2000) */
+}
+
+.mobile-asset-card {
+    cursor: pointer; /* Feedback for clickable */
+}
+
+/* Ensure Mobile Detail Overlay is on top of Bottom Nav */
+.mobile-detail-overlay {
+    z-index: 2000 !important; /* Above bottom nav (100) */
+}
+
