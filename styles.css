@@ -6581,10 +6581,10 @@ body:has(.home-container) .header {
 
 /* Fix Mobile Horizontal Scroll & Layout */
 @media (max-width: 768px) {
-    html, body {
+    /* html, body {
         overflow-x: hidden;
         width: 100%;
-    }
+    } */
 
     .profile-page-container {
         width: 100% !important; /* Reset width to fill container */
@@ -6607,5 +6607,45 @@ body:has(.home-container) .header {
 /* Ensure Mobile Detail Overlay is on top of Bottom Nav */
 .mobile-detail-overlay {
     z-index: 2000 !important; /* Above bottom nav (100) */
+}
+
+
+/* Mobile Marketplace Text Size Reduction */
+@media (max-width: 768px) {
+    .market-card {
+        padding: 10px !important;
+    }
+    
+    .market-card .card-title {
+        font-size: 13px !important;
+        margin-bottom: 4px !important;
+    }
+    
+    /* Est Value (Black Price) */
+    .market-card .stat-pair:last-child .stat-val {
+        font-size: 18px !important; /* Reduced from 36px */
+        line-height: 1.1 !important;
+    }
+    
+    /* Original Value (Grey Price) */
+    .market-card .stat-pair:first-child .stat-val {
+        font-size: 10px !important;
+    }
+
+    /* Labels (Original Value, Est Value) */
+    .market-card .stat-label {
+        font-size: 9px !important; /* Reduced size */
+    }
+    
+    /* Potential Badge (Green) */
+    .market-card .potential-badge {
+        font-size: 9px !important;
+        padding: 2px 6px !important;
+    }
+    
+    .market-card .card-badge {
+        font-size: 9px !important;
+        padding: 2px 6px !important;
+    }
 }
 
